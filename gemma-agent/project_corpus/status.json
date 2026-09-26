@@ -1,0 +1,18 @@
+{
+  "projects": 24,
+  "tasks": 48,
+  "reference_and_starter_browser_checks": 72,
+  "all_expected_results_matched": true,
+  "authored_demonstrations": 40,
+  "train_actions": 256,
+  "validation_actions": 64,
+  "train_families": 16,
+  "validation_families": 4,
+  "held_out_families": 4,
+  "reference_visible": true,
+  "independent_compact_teacher_successes": 0,
+  "new_model_trained_on_this_corpus": false,
+  "independent_native_teacher_successes": 0,
+  "native_teacher_failure": "PowerShell command errors followed by stream closed before response.completed",
+  "unit_tests_passed": 38
+}

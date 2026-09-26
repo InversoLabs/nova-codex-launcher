@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "task_id": "meeting-overlap--repair",
+  "family": "meeting-overlap",
+  "split": "train",
+  "provenance": "Assistant-authored deterministic demonstration with reference visible; actual file operations and browser tests",
+  "independent_teacher_rollout": false,
+  "accepted": true,
+  "steps": [
+    {
+      "action": {
+        "tool": "read",
+        "path": "TASK.md"
+      },
+      "result": {
+        "content": "Complete this browser application: Meet Window. Find the overlap of two same-day availability windows in 24-hour time.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.\n\nExample input/output:\n[[{\"startA\": \"09:00\", \"endA\": \"12:00\", \"startB\": \"11:00\", \"endB\": \"14:00\"}, {\"overlapMinutes\": 60, \"available\": \"Yes\"}]]\n\nStrict HH:MM 24-hour values, same day. Reject an end before its start. Return nonnegative overlapMinutes and available (Yes for positive overlap, No otherwise).\n"
+      }
+    },
+    {
+      "action": {
+        "tool": "read",
+        "path": "README.md"
+      },
+      "result": {
+        "content": "# Meet Window\n\nFind the overlap of two same-day availability windows in 24-hour time.\n\nOpen index.html in a browser or serve this directory with a local static server. No build, dependencies, accounts, or external assets. Data stays on this device.\n\nThe form validates inputs, calculates a result, supports reset, and saves only the last result; Clear saved result removes it. Includes keyboard focus and a mobile layout.\n"
+      }
+    },
+    {
+      "action": {
+        "tool": "read",
+        "path": "index.html"
+      },
+      "result": {
+        "content": "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>Meet Window</title><link rel=\"stylesheet\" href=\"style.css\"><script defer src=\"logic.js\"></script><script defer src=\"app.js\"></script></head>\n<body data-project=\"meeting-overlap\" data-persist=\"yes\"><header><span class=\"brand\">NOVA / LAB</span><span class=\"badge\">Local browser app</span></header><main><section class=\"intro\"><span class=\"eyebrow\">A little tool for everyday work</span><h1>Meet Window</h1><p>Find the overlap of two same-day availability windows in 24-hour time.</p></section><div class=\"grid\"><section class=\"panel\"><h2>Your details</h2><form novalidate><label for=\"startA\">First start<input id=\"startA\" name=\"startA\" type=\"text\" step=\"any\" value=\"09:00\"></label><label for=\"endA\">First end<input id=\"endA\" name=\"endA\" type=\"text\" step=\"any\" value=\"12:00\"></label><label for=\"startB\">Second start<input id=\"startB\" name=\"startB\" type=\"text\" step=\"any\" value=\"11:00\"></label><label for=\"endB\">Second end<input id=\"endB\" name=\"endB\" type=\"text\" step=\"any\" value=\"14:00\"></label><div class=\"actions\"><button type=\"submit\">Calculate</button><button type=\"button\" class=\"secondary\" id=\"reset\">Reset</button></div><p id=\"error\" role=\"alert\"></p></form></section><section class=\"panel\"><h2>Your result</h2><dl id=\"result\" aria-live=\"polite\" hidden></dl><p>Enter your details, then calculate to see the result.</p><h2>Last result</h2><ul id=\"history\"></ul><button type=\"button\" class=\"secondary\" id=\"clear\">Clear saved result</button></section></div></main><footer>Runs in your browser. Only your most recent result is saved on this device. Demonstration project.</footer></body></html>\n"
+      }
+    },
+    {
+      "action": {
+        "tool": "read",
+        "path": "app.js"
+      },
+      "result": {
+        "content": "const form=document.querySelector('form'), result=document.querySelector('#result'), error=document.querySelector('#error');\nconst storageKey='nova-demo:'+document.body.dataset.project;\nconst history=document.querySelector('#history');\nfunction label(key){return key.replace(/([A-Z])/g,' $1').replace(/^./,x=>x.toUpperCase());}\nfunction render(value){result.replaceChildren(); for(const [key,text] of Object.entries(value)){const card=document.createElement('div'); card.className='metric'; const dt=document.createElement('dt'),dd=document.createElement('dd'); dt.textContent=label(key); dd.textContent=String(text); dd.dataset.metric=key;card.append(dt,dd);result.append(card);} result.hidden=false;}\nfunction restore(){history.replaceChildren(); try{const saved=JSON.parse(localStorage.getItem(storageKey)||'null'); if(saved){const item=document.createElement('li'); item.textContent=Object.values(saved).join(' · '); history.append(item);}}catch{localStorage.removeItem(storageKey);}}\nform.addEventListener('submit',event=>{event.preventDefault(); error.textContent='';result.hidden=true;try{const value=run(Object.fromEntries(new FormData(form)));render(value);if(document.body.dataset.persist==='yes'){localStorage.setItem(storageKey,JSON.stringify(value));restore();}}catch(e){result.replaceChildren();error.textContent=e.message||'Please check your input';}});\ndocument.querySelector('#reset').addEventListener('click',()=>{HTMLFormElement.prototype.reset.call(form);result.replaceChildren();result.hidden=true;error.textContent='';});\ndocument.querySelector('#clear').addEventListener('click',()=>{localStorage.removeItem(storageKey);restore();});\nrestore();\n"
+      }
+    },
+    {
+      "action": {
+        "tool": "read",
+        "path": "logic.js"
+      },
+      "result": {
+        "content": "function num(value,min){if(String(value).trim()==='') throw Error('Enter all numeric fields'); const n=Number(value); if(!Number.isFinite(n)||n<min) throw Error('Enter a number of at least '+min); return n;}\nfunction round(n){return Math.round((n+Number.EPSILON)*100)/100;}\nfunction lines(s){return s.split(/\\r?\\n/).map(x=>x.trim()).filter(Boolean);}\nfunction time(s){if(!/^([01]\\d|2[0-3]):[0-5]\\d$/.test(s)) throw Error('Use HH:MM in 24-hour time'); const [h,m]=s.split(':').map(Number); return h*60+m;}\n\nfunction run(d){\nconst a=time(d.startA),b=time(d.endA),c=time(d.startB),e=time(d.endB); if(b<a||e<c) throw Error('End precedes start'); const n=Math.abs(Math.min(b,e)-Math.max(a,c)); return {overlapMinutes:n,available:n>0?'Yes':'No'};\n}\n"
+      }
+    },
+    {
+      "action": {
+        "tool": "edit",
+        "path": "logic.js",
+        "old": "function num(value,min){if(String(value).trim()==='') throw Error('Enter all numeric fields'); const n=Number(value); if(!Number.isFinite(n)||n<min) throw Error('Enter a number of at least '+min); return n;}\nfunction round(n){return Math.round((n+Number.EPSILON)*100)/100;}\nfunction lines(s){return s.split(/\\r?\\n/).map(x=>x.trim()).filter(Boolean);}\nfunction time(s){if(!/^([01]\\d|2[0-3]):[0-5]\\d$/.test(s)) throw Error('Use HH:MM in 24-hour time'); const [h,m]=s.split(':').map(Number); return h*60+m;}\n\nfunction run(d){\nconst a=time(d.startA),b=time(d.endA),c=time(d.startB),e=time(d.endB); if(b<a||e<c) throw Error('End precedes start'); const n=Math.abs(Math.min(b,e)-Math.max(a,c)); return {overlapMinutes:n,available:n>0?'Yes':'No'};\n}\n",
+        "new": "function num(value,min){if(String(value).trim()==='') throw Error('Enter all numeric fields'); const n=Number(value); if(!Number.isFinite(n)||n<min) throw Error('Enter a number of at least '+min); return n;}\nfunction round(n){return Math.round((n+Number.EPSILON)*100)/100;}\nfunction lines(s){return s.split(/\\r?\\n/).map(x=>x.trim()).filter(Boolean);}\nfunction time(s){if(!/^([01]\\d|2[0-3]):[0-5]\\d$/.test(s)) throw Error('Use HH:MM in 24-hour time'); const [h,m]=s.split(':').map(Number); return h*60+m;}\n\nfunction run(d){\nconst a=time(d.startA),b=time(d.endA),c=time(d.startB),e=time(d.endB); if(b<a||e<c) throw Error('End precedes start'); const n=Math.max(0,Math.min(b,e)-Math.max(a,c)); return {overlapMinutes:n,available:n>0?'Yes':'No'};\n}\n"
+      },
+      "result": {
+        "updated": "logic.js",
+        "before_sha256": "c4ec7a5027313d9de12db256d1b41de303c37b2f142efc4af96ba09a8afd5dab",
+        "after_sha256": "d280bfcbf940661fb4c8ee226c89d8513e25b6a2c065fa52307db2d04229b8e9"
+      }
+    },
+    {
+      "action": {
+        "tool": "test"
+      },
+      "result": {
+        "schema": 1,
+        "project": "meeting-overlap",
+        "passed": true,
+        "checks": [
+          "behavior case 1",
+          "behavior case 2",
+          "behavior case 3",
+          "reset restores defaults",
+          "persistence and clear",
+          "labels, keyboard focus, mobile overflow"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "action": {
+        "tool": "finish",
+        "summary": "Implemented and verified browser behavior, reset, and local state."
+      },
+      "result": {
+        "finished": true
+      }
+    }
+  ],
+  "suite_hash": "3c501ef84578fcf9b669a2d56f243472adb41037862e72e32fe0cc09c126f271",
+  "grade_hash": "e22d53187b966c834de2a2837c90b3ff22d41317237bb30495b397d8d333804b"
+}

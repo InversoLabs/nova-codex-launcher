@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "task_id": "recipe-scaler--implement",
+  "family": "recipe-scaler",
+  "split": "train",
+  "provenance": "Assistant-authored deterministic demonstration with reference visible; actual file operations and browser tests",
+  "independent_teacher_rollout": false,
+  "accepted": true,
+  "steps": [
+    {
+      "action": {
+        "tool": "read",
+        "path": "TASK.md"
+      },
+      "result": {
+        "content": "Complete this browser application: Kitchen Scale. Scale recipe quantities without losing fractional portions.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.\n\nExample input/output:\n[[{\"amount\": \"250\", \"servings\": \"4\", \"target\": \"6\"}, {\"quantity\": 375, \"factor\": 1.5}]]\n\namount >= 0; servings and target >= 0.01. quantity = amount * target / servings; factor = target / servings. Round both to 2 decimals.\n"
+      }
+    },
+    {
+      "action": {
+        "tool": "read",
+        "path": "README.md"
+      },
+      "result": {
+        "content": "# Kitchen Scale\n\nScale recipe quantities without losing fractional portions.\n\nOpen index.html in a browser or serve this directory with a local static server. No build, dependencies, accounts, or external assets. Data stays on this device.\n\nThe form validates inputs, calculates a result, supports reset, and saves only the last result; Clear saved result removes it. Includes keyboard focus and a mobile layout.\n"
+      }
+    },
+    {
+      "action": {
+        "tool": "read",
+        "path": "index.html"
+      },
+      "result": {
+        "content": "<!doctype html>\n<html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>Kitchen Scale</title><link rel=\"stylesheet\" href=\"style.css\"><script defer src=\"logic.js\"></script><script defer src=\"app.js\"></script></head>\n<body data-project=\"recipe-scaler\" data-persist=\"yes\"><header><span class=\"brand\">NOVA / LAB</span><span class=\"badge\">Local browser app</span></header><main><section class=\"intro\"><span class=\"eyebrow\">A little tool for everyday work</span><h1>Kitchen Scale</h1><p>Scale recipe quantities without losing fractional portions.</p></section><div class=\"grid\"><section class=\"panel\"><h2>Your details</h2><form novalidate><label for=\"amount\">Original quantity<input id=\"amount\" name=\"amount\" type=\"number\" step=\"any\" value=\"250\"></label><label for=\"servings\">Original servings<input id=\"servings\" name=\"servings\" type=\"number\" step=\"any\" value=\"4\"></label><label for=\"target\">Target servings<input id=\"target\" name=\"target\" type=\"number\" step=\"any\" value=\"6\"></label><div class=\"actions\"><button type=\"submit\">Calculate</button><button type=\"button\" class=\"secondary\" id=\"reset\">Reset</button></div><p id=\"error\" role=\"alert\"></p></form></section><section class=\"panel\"><h2>Your result</h2><dl id=\"result\" aria-live=\"polite\" hidden></dl><p>Enter your details, then calculate to see the result.</p><h2>Last result</h2><ul id=\"history\"></ul><button type=\"button\" class=\"secondary\" id=\"clear\">Clear saved result</button></section></div></main><footer>Runs in your browser. Only your most recent result is saved on this device. Demonstration project.</footer></body></html>\n"
+      }
+    },
+    {
+      "action": {
+        "tool": "read",
+        "path": "app.js"
+      },
+      "result": {
+        "content": "const form=document.querySelector('form'), result=document.querySelector('#result'), error=document.querySelector('#error');\nconst storageKey='nova-demo:'+document.body.dataset.project;\nconst history=document.querySelector('#history');\nfunction label(key){return key.replace(/([A-Z])/g,' $1').replace(/^./,x=>x.toUpperCase());}\nfunction render(value){result.replaceChildren(); for(const [key,text] of Object.entries(value)){const card=document.createElement('div'); card.className='metric'; const dt=document.createElement('dt'),dd=document.createElement('dd'); dt.textContent=label(key); dd.textContent=String(text); dd.dataset.metric=key;card.append(dt,dd);result.append(card);} result.hidden=false;}\nfunction restore(){history.replaceChildren(); try{const saved=JSON.parse(localStorage.getItem(storageKey)||'null'); if(saved){const item=document.createElement('li'); item.textContent=Object.values(saved).join(' · '); history.append(item);}}catch{localStorage.removeItem(storageKey);}}\nform.addEventListener('submit',event=>{event.preventDefault(); error.textContent='';result.hidden=true;try{const value=run(Object.fromEntries(new FormData(form)));render(value);if(document.body.dataset.persist==='yes'){localStorage.setItem(storageKey,JSON.stringify(value));restore();}}catch(e){result.replaceChildren();error.textContent=e.message||'Please check your input';}});\ndocument.querySelector('#reset').addEventListener('click',()=>{HTMLFormElement.prototype.reset.call(form);result.replaceChildren();result.hidden=true;error.textContent='';});\ndocument.querySelector('#clear').addEventListener('click',()=>{localStorage.removeItem(storageKey);restore();});\nrestore();\n"
+      }
+    },
+    {
+      "action": {
+        "tool": "read",
+        "path": "logic.js"
+      },
+      "result": {
+        "content": "function num(value,min){if(String(value).trim()==='') throw Error('Enter all numeric fields'); const n=Number(value); if(!Number.isFinite(n)||n<min) throw Error('Enter a number of at least '+min); return n;}\nfunction round(n){return Math.round((n+Number.EPSILON)*100)/100;}\nfunction lines(s){return s.split(/\\r?\\n/).map(x=>x.trim()).filter(Boolean);}\nfunction time(s){if(!/^([01]\\d|2[0-3]):[0-5]\\d$/.test(s)) throw Error('Use HH:MM in 24-hour time'); const [h,m]=s.split(':').map(Number); return h*60+m;}\n\nfunction run(d){throw Error('Calculation is not implemented');}\n"
+      }
+    },
+    {
+      "action": {
+        "tool": "write",
+        "path": "logic.js",
+        "content": "function num(value,min){if(String(value).trim()==='') throw Error('Enter all numeric fields'); const n=Number(value); if(!Number.isFinite(n)||n<min) throw Error('Enter a number of at least '+min); return n;}\nfunction round(n){return Math.round((n+Number.EPSILON)*100)/100;}\nfunction lines(s){return s.split(/\\r?\\n/).map(x=>x.trim()).filter(Boolean);}\nfunction time(s){if(!/^([01]\\d|2[0-3]):[0-5]\\d$/.test(s)) throw Error('Use HH:MM in 24-hour time'); const [h,m]=s.split(':').map(Number); return h*60+m;}\n\nfunction run(d){\nconst amount=num(d.amount,0), servings=num(d.servings,0.01), target=num(d.target,0.01); return {quantity:round(amount*target/servings),factor:round(target/servings)};\n}\n"
+      },
+      "result": {
+        "updated": "logic.js",
+        "before_sha256": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+        "after_sha256": "705ea30348fd7c436bdf7370c4e70f3d56e076e12daf84d791d846c1edd17148"
+      }
+    },
+    {
+      "action": {
+        "tool": "test"
+      },
+      "result": {
+        "schema": 1,
+        "project": "recipe-scaler",
+        "passed": true,
+        "checks": [
+          "behavior case 1",
+          "behavior case 2",
+          "behavior case 3",
+          "invalid input clears stale results",
+          "reset restores defaults",
+          "persistence and clear",
+          "labels, keyboard focus, mobile overflow"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "action": {
+        "tool": "finish",
+        "summary": "Implemented and verified browser behavior, reset, and local state."
+      },
+      "result": {
+        "finished": true
+      }
+    }
+  ],
+  "suite_hash": "3c501ef84578fcf9b669a2d56f243472adb41037862e72e32fe0cc09c126f271",
+  "grade_hash": "85efe946745724e391260cfa221529a1811d5c1c69cd0632af460c252587bfdf"
+}

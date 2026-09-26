@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "counts": {
+    "train": 256,
+    "validation": 64
+  },
+  "files": {
+    "train": "7eb8e50d2dbb40a4994322637573372cfe78e5ade459df36feb49255795beaf5",
+    "validation": "e9c68c7d9a0e5cbf451665e3638ad71476750c846ed2988692945be92593eb98"
+  },
+  "reference_allowed": true,
+  "expert_demonstrations": true,
+  "independent_teacher_rollouts": 0,
+  "note": "Real browser feedback on reference-aware authored action plans. Explicit review and new training preflight required. Not held-out performance evidence.",
+  "families": {
+    "train": 16,
+    "validation": 4
+  }
+}

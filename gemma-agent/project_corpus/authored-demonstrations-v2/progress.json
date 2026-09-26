@@ -1,0 +1,202 @@
+[
+  {
+    "task": "reading-planner--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "reading-planner--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "event-capacity--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "event-capacity--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "recipe-scaler--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "recipe-scaler--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "inventory-alerts--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "inventory-alerts--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "ticket-pricing--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "ticket-pricing--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "meeting-overlap--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "meeting-overlap--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "catalog-search--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "catalog-search--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "text-insights--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "text-insights--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "trip-budget--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "trip-budget--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "color-contrast--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "color-contrast--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "priority-board--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "priority-board--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "shipping-quote--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "shipping-quote--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "quiz-score--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "quiz-score--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "work-session--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "work-session--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "duplicate-cleaner--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "duplicate-cleaner--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "subscription-budget--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "subscription-budget--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "unit-converter--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "unit-converter--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "pagination--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "pagination--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "storage-estimate--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "storage-estimate--repair",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "rsvp-summary--implement",
+    "accepted": true,
+    "actions": 8
+  },
+  {
+    "task": "rsvp-summary--repair",
+    "accepted": true,
+    "actions": 8
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "project": "rsvp-summary",
+  "passed": true,
+  "checks": [
+    "behavior case 1",
+    "behavior case 2",
+    "behavior case 3",
+    "reset restores defaults",
+    "persistence and clear",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": []
+}

@@ -8,7 +8,7 @@ param(
     [string]$Sandbox = 'workspace-write',
     [ValidateSet('minimal', 'low', 'medium', 'high')]
     [string]$Reasoning = 'minimal',
-    [ValidateSet(4096, 8192, 12288, 16384)]
+    [ValidateSet(4096, 8192, 12288, 16384, 32768)]
     [int]$ContextTokens = 8192,
     [string]$ModelCatalog,
     # Director-only batch mode. Omit both to retain the original manual TUI.
@@ -25,6 +25,7 @@ if ($Model -eq 'gemma4-codex:pilot-v1') {
 }
 
 $AutoCompactTokens = switch ($ContextTokens) {
+    32768 { 24000 }
     4096 { 3000 }
     12288 { 9000 }
     16384 { 12000 }

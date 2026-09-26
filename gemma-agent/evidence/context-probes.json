@@ -1,0 +1,45 @@
+{
+  "scope": "Short-response allocation smoke tests via existing bridge, not long-context quality or speed benchmarks",
+  "results": [
+    {
+      "context": 16384,
+      "model": "gemma4-codex:pilot-v1-16k",
+      "seconds": 17.121,
+      "reply": "{\n  \"tool\": \"finish\",\n  \"summary\": \"READY\"\n}",
+      "reasoning_chars": 1033,
+      "finish": "stop",
+      "usage": {
+        "prompt_tokens": 49,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens": 280,
+        "total_tokens": 329
+      },
+      "actual_context": 16384,
+      "size": 2737024531,
+      "size_vram": 2737024531,
+      "passed": true
+    },
+    {
+      "context": 32768,
+      "model": "gemma4-codex:pilot-v1-32k",
+      "seconds": 27.759,
+      "reply": "{\n  \"tool\": \"finish\",\n  \"summary\": \"READY\"\n}",
+      "reasoning_chars": 1033,
+      "finish": "stop",
+      "usage": {
+        "prompt_tokens": 49,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens": 280,
+        "total_tokens": 329
+      },
+      "actual_context": 32768,
+      "size": 3290672659,
+      "size_vram": 3290672659,
+      "passed": true
+    }
+  ]
+}

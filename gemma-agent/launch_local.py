@@ -8,16 +8,24 @@ import time
 from pathlib import Path
 ROOT=Path(__file__).resolve().parent
 
+def context_model(model,context):
+    # The OpenAI chat endpoint does not pass num_ctx. Named Ollama profiles
+    # configure real server context without changing the existing base tag.
+    if model=='gemma4-codex:pilot-v1' and context!=8192:
+        return model+'-'+str(context//1024)+'k'
+    return model
+
 def main():
     p=argparse.ArgumentParser()
     p.add_argument('--workspace',required=True)
     p.add_argument('--base-url',choices=('http://127.0.0.1:8788','http://192.168.86.51:8787','https://nova.inversolabs.us'),required=True)
     p.add_argument('--model',default='gemma4-codex:pilot-v1')
-    p.add_argument('--context',type=int,choices=(4096,8192),default=8192)
+    p.add_argument('--context',type=int,choices=(4096,8192,16384,32768),default=8192)
     p.add_argument('--sandbox',choices=('workspace-write','read-only'),default='workspace-write')
     p.add_argument('--prompt-file'); p.add_argument('--test-command',default='')
     p.add_argument('--out'); p.add_argument('--timeout',type=int,default=600)
     args=p.parse_args()
+    args.model=context_model(args.model,args.context)
     workspace=Path(args.workspace).resolve()
     if not workspace.is_dir(): raise ValueError('Workspace does not exist')
     if not os.environ.get('NOVA_DESKTOP_API_KEY'): raise RuntimeError('Enter your existing NOVA API key in the launcher.')

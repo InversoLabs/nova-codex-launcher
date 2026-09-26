@@ -2,7 +2,7 @@ param(
     [string]$Workspace = (Get-Location).Path,
     [ValidateSet('https://nova.inversolabs.us','http://192.168.86.51:8787','http://127.0.0.1:8788')][string]$BaseUrl='http://127.0.0.1:8788',
     [ValidateSet('read-only','workspace-write')][string]$Sandbox = 'workspace-write',
-    [ValidateSet(4096,8192)][int]$ContextTokens = 8192,
+    [ValidateSet(4096,8192,16384,32768)][int]$ContextTokens = 8192,
     [string]$PromptFile,
     [string]$TestCommand = '',
     [string]$Out

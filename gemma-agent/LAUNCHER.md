@@ -27,6 +27,15 @@ Bundled skills are disabled only in this profile's isolated Codex home. Auxiliar
 tool-free chat-title requests are answered locally rather than queued on NOVA.
 Restart the Gemma Codex session after an adapter update to load the new code.
 
+Context options are 4K, 8K (default), 16K and 32K. The larger options are for
+server testing, not yet validated for long-context coding quality or the 8GB Mac.
+The bridge's chat API does not accept `num_ctx`, so the launcher chooses matching
+Ollama tags `gemma4-codex:pilot-v1-4k`, `-16k`, or `-32k`; 8K retains the original
+tag. These profiles share the same weight blobs and preserve the existing model.
+Create them on NOVA with `training/register_context_profiles.ps1` before use.
+Selecting 8K returns to the original profile. Larger contexts do not increase the
+bridge's per-response 2048-token limit.
+
 The `gemma-agent` source includes the evaluator, teacher dataset collector,
 training recipes, and export code. `evidence` contains generated test fixtures,
 verified seed data and pilot measurements, not private repository transcripts.

@@ -48,7 +48,7 @@ internal sealed class LauncherForm : Form
         _baseUrl.Text = "http://127.0.0.1:8788";
         _reasoning.Items.AddRange(["minimal", "low", "medium", "high"]);
         _reasoning.SelectedIndex = 0;
-        _context.Items.AddRange(["4K · Low memory", "8K · Recommended", "12K · Long", "16K · Experimental"]);
+        _context.Items.AddRange(["4K · Low memory", "8K · Recommended", "12K · Long", "16K · Experimental", "32K · Gemma testing"]);
         _context.SelectedIndex = 1;
         _sandbox.Items.AddRange(["workspace-write", "read-only"]);
         _sandbox.SelectedIndex = 0;
@@ -148,7 +148,7 @@ internal sealed class LauncherForm : Form
             var body = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode) throw new InvalidOperationException($"NOVA returned {(int)response.StatusCode}: {Safe(body)}");
             using var doc = JsonDocument.Parse(body);
-            var names = ReadModelNames(doc.RootElement).Where(x => x != "gemma4-codex:pilot-v1").Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(x => x).ToArray();
+            var names = ReadModelNames(doc.RootElement).Where(x => !x.StartsWith("gemma4-codex:pilot-v1", StringComparison.OrdinalIgnoreCase)).Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(x => x).ToArray();
             var previous = _model.SelectedItem?.ToString();
             _model.Items.Clear(); _model.Items.Add(GemmaChoice); _model.Items.AddRange(names);
             if (previous != null && _model.Items.Contains(previous)) _model.SelectedItem = previous;
@@ -202,8 +202,9 @@ internal sealed class LauncherForm : Form
         if (!EnsureCompatibilityProxy()) return;
         var script = Path.Combine(_toolsDirectory, "nova-codex-interactive.ps1");
         if (!File.Exists(script)) { SetStatus($"Launcher script is missing: {script}", true); return; }
-        var contextTokens = _context.SelectedIndex switch { 0 => 4096, 2 => 12288, 3 => 16384, _ => 8192 };
-        if (gemma && contextTokens > 8192) { SetStatus("Gemma currently supports 4K or 8K context. Select one of those.", true); return; }
+        var contextTokens = _context.SelectedIndex switch { 0 => 4096, 2 => 12288, 3 => 16384, 4 => 32768, _ => 8192 };
+        if (gemma && contextTokens == 12288) { SetStatus("For Gemma select 4K, 8K, 16K or 32K.", true); return; }
+        if (!gemma && contextTokens == 32768) { SetStatus("32K testing is currently configured for Gemma only.", true); return; }
         if (gemma) selected = "gemma4-codex:pilot-v1";
         var args = $"-NoExit -NoProfile -ExecutionPolicy Bypass -File {Q(script)} -Model {Q(selected)} -Workspace {Q(_workspace.Text)} -BaseUrl {Q(_baseUrl.Text.TrimEnd('/'))} -Sandbox {Q(_sandbox.Text)} -Reasoning {Q(_reasoning.Text)} -ContextTokens {contextTokens}";
         var start = new ProcessStartInfo("powershell.exe", args) { UseShellExecute = false, CreateNoWindow = false, WorkingDirectory = _workspace.Text };

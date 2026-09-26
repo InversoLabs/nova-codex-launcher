@@ -19,7 +19,7 @@ def ensure_idle(projects):
         raise RuntimeError('Conductor has active work; leave production model alone')
 
 def main():
-    p=argparse.ArgumentParser(); p.add_argument('--out',required=True); args=p.parse_args()
+    p=argparse.ArgumentParser(); p.add_argument('--out',required=True); p.add_argument('--resume-adapter'); p.add_argument('--steps',type=int,default=2); p.add_argument('--resident-model',default='gpt-oss:20b'); args=p.parse_args()
     root=Path(__file__).resolve().parents[1]
     out=(root/args.out).resolve(); out.mkdir(parents=True,exist_ok=False)
     cfg=json.loads((root/'training/gemma-e2b.json').read_text())
@@ -31,12 +31,12 @@ def main():
         state.update(values); (out/'job.json').write_text(json.dumps(state,indent=2)); print(json.dumps(state),flush=True)
     ensure_idle(request('http://127.0.0.1:18183/api/projects'))
     models=request('http://127.0.0.1:11434/api/ps')['models']
-    original=next((m for m in models if m['name']=='gpt-oss:20b'),None)
-    if any(m['name']!='gpt-oss:20b' for m in models): raise RuntimeError('Other resident model detected; do not compete for its memory')
+    original=next((m for m in models if m['name']==args.resident_model),None)
+    if any(m['name']!=args.resident_model for m in models): raise RuntimeError('Other resident model detected; do not compete for its memory')
     try:
         if original:
             update(phase='unloading_authorized_model')
-            request('http://127.0.0.1:11434/api/generate',{'model':'gpt-oss:20b','keep_alive':0},60)
+            request('http://127.0.0.1:11434/api/generate',{'model':args.resident_model,'keep_alive':0},60)
         update(phase='backend_preflight')
         with (out/'backend.log').open('w',encoding='utf-8') as log:
             probe=subprocess.Popen([str(root/'.venv-training/Scripts/python.exe'),'-u',
@@ -52,7 +52,8 @@ def main():
             raise RuntimeError('Backend preflight failed; inspect backend.log')
         command=[str(root/'.venv-training/Scripts/python.exe'),'-u',str(root/'training/pilot.py'),
                  '--base',str(base),'--data',str(root/'datasets/gpt-teacher-seed'),
-                 '--out',str(out/'training'),'--steps','2','--execute']
+                 '--out',str(out/'training'),'--steps',str(args.steps),'--execute']
+        if args.resume_adapter: command += ['--resume-adapter',args.resume_adapter]
         with (out/'training.log').open('w',encoding='utf-8') as log:
             child=subprocess.Popen(command,cwd=root,stdout=log,stderr=subprocess.STDOUT,env=environment,
                 creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
@@ -70,10 +71,10 @@ def main():
         if original:
             update(phase='restoring_original_model')
             try:
-                request('http://127.0.0.1:11434/api/generate',{'model':'gpt-oss:20b','prompt':'','stream':False,
+                request('http://127.0.0.1:11434/api/generate',{'model':args.resident_model,'prompt':'','stream':False,
                     'keep_alive':-1,'options':{'num_ctx':original.get('context_length',8192),'num_predict':1}},300)
                 restored=request('http://127.0.0.1:11434/api/ps')['models']
-                update(restored=any(m['name']=='gpt-oss:20b' for m in restored))
+                update(restored=any(m['name']==args.resident_model for m in restored))
             except Exception as exc: update(restored=False,restore_error=str(exc))
         try: state['conductor_health']=request('http://127.0.0.1:18183/health',timeout=8)
         except Exception as exc: state['health_error']=str(exc)

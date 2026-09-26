@@ -15,6 +15,7 @@ def main():
     p.add_argument('--base',required=True); p.add_argument('--data',required=True)
     p.add_argument('--out',required=True); p.add_argument('--execute',action='store_true')
     p.add_argument('--steps',type=int,default=2); p.add_argument('--device',type=int,default=1)
+    p.add_argument('--resume-adapter',help='Continue adapter weights with a fresh optimizer')
     args=p.parse_args()
     if not 1<=args.steps<=10: raise ValueError('Pilot is limited to 1-10 steps')
     root=Path(__file__).resolve().parents[1]
@@ -36,7 +37,7 @@ def main():
         import torch
         import psutil
         from transformers import AutoTokenizer,Gemma4TextConfig,Gemma4ForCausalLM,BitsAndBytesConfig
-        from peft import LoraConfig,get_peft_model
+        from peft import LoraConfig,get_peft_model,PeftModel
         from accelerate.hooks import remove_hook_from_module
         torch.set_num_threads(2); torch.manual_seed(42); torch.cuda.set_device(args.device)
         free,total=torch.cuda.mem_get_info()
@@ -72,8 +73,13 @@ def main():
         embedding.forward=cpu_embedding
         for parameter in model.parameters(): parameter.requires_grad_(False)
         model.config.use_cache=False
-        model=get_peft_model(model,LoraConfig(r=4,lora_alpha=8,lora_dropout=0.0,
-            target_modules=['q_proj','v_proj','o_proj'],task_type='CAUSAL_LM',bias='none'))
+        if args.resume_adapter:
+            model=PeftModel.from_pretrained(model,args.resume_adapter,is_trainable=True)
+            report['continued_from']=str(Path(args.resume_adapter).resolve())
+            report['optimizer']='fresh AdamW; prior optimizer state was not saved'
+        else:
+            model=get_peft_model(model,LoraConfig(r=4,lora_alpha=8,lora_dropout=0.0,
+                target_modules=['q_proj','v_proj','o_proj'],task_type='CAUSAL_LM',bias='none'))
         model.enable_input_require_grads()
         model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={'use_reentrant':False})
         trainable=[v for v in model.parameters() if v.requires_grad]

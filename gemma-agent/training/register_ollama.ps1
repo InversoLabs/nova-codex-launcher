@@ -1,4 +1,4 @@
-param([string]$GGUF=(Join-Path $PSScriptRoot '..\runs\convert-pilot-v3\gemma-pilot-q4_0.gguf'))
+param([string]$GGUF=(Join-Path $PSScriptRoot '..\runs\convert-pilot-v4\gemma-pilot-q4_0.gguf'))
 $ErrorActionPreference='Stop'
 $model='gemma4-codex:pilot-v1'
 $resolved=(Resolve-Path -LiteralPath $GGUF).Path

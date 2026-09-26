@@ -18,7 +18,7 @@ def available():
 
 def main():
     root=Path(__file__).resolve().parents[1]
-    out=root/'runs/convert-pilot-v3'; out.mkdir(exist_ok=False)
+    out=root/'runs/convert-pilot-v4'; out.mkdir(exist_ok=False)
     state={'phase':'preflight','success':False,'restored':None}
     def update(**values):
         state.update(values); (out/'result.json').write_text(json.dumps(state,indent=2)); print(json.dumps(state),flush=True)
@@ -50,7 +50,7 @@ def main():
                     child.wait(timeout=30)
     try:
         if original: request('http://127.0.0.1:11434/api/generate',{'model':original['name'],'keep_alive':0},60)
-        if available()<16*1024**3: raise RuntimeError('Conversion needs at least 16GB available RAM')
+        if available()<8*1024**3: raise RuntimeError('Chunked conversion needs at least 8GB available RAM')
         run([str(root/'.venv-training/Scripts/python.exe'),'-u',str(root/'training/convert_chunked.py'),
             str(root/'runs/export-pilot-v1/export/merged'),'--outfile',str(out/'gemma-pilot-f16.gguf'),
             '--outtype','f16'],'convert')

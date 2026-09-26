@@ -54,7 +54,8 @@ def main():
         model=catalog['models'][0]
         model.update(slug='gemma-e2b-pilot',display_name='Gemma E2B trained pilot via NOVA',
             context_window=args.context,max_context_window=args.context,supports_parallel_tool_calls=False,
-            base_instructions='You are a concise coding agent on Windows PowerShell. Follow the task using the compact JSON action interface supplied by the adapter. Inspect relevant files before editing. Verify changes and report actual results. Never invent successful tests.')
+            base_instructions='You are a concise coding agent on Windows PowerShell. Follow the task using the compact JSON action interface supplied by the adapter. Inspect relevant files before editing. Verify changes and report actual results. Never invent successful tests.'
+            + ' For HTTPS documentation requests, use Python urllib.request with User-Agent Mozilla/5.0; Windows curl may fail TLS in the sandbox. Python executable: '+str(Path(sys.executable))+'. Keep certificate verification enabled.')
         catalog_file=out/'catalog.json'; catalog_file.write_text(json.dumps(catalog))
         config={'model_provider':'gemma_remote','model_providers.gemma_remote.name':'NOVA Gemma',
             'model_providers.gemma_remote.base_url':f'http://127.0.0.1:{port}/v1',
@@ -65,7 +66,8 @@ def main():
             'model_reasoning_summary':'detailed','hide_agent_reasoning':False,
             'tool_output_token_limit':1000,'features.plugins':False,'features.apps':False,
             'features.multi_agent':False,'features.remote_plugin':False,'features.skill_search':False,
-            'features.code_mode.enabled':False,'web_search':'disabled'}
+            'features.code_mode.enabled':False,'web_search':'disabled',
+            'sandbox_workspace_write.network_access':True}
         cmd=[str(codex),'-s',args.sandbox,'-C',str(workspace),'-m','gemma-e2b-pilot']
         for k,v in config.items(): cmd+=['-c',k+'='+json.dumps(v)]
         if args.prompt_file:

@@ -108,10 +108,41 @@ def source_snapshot(root):
             result[str(p.relative_to(root))]=digest(p)
     return result
 
+class DocumentText(HTMLParser):
+    def __init__(self):
+        super().__init__(); self.parts=[]; self.skip=0
+    def handle_starttag(self,tag,attrs):
+        if tag in ('script','style','nav','svg'): self.skip+=1
+        if not self.skip and tag in ('p','div','h1','h2','h3','pre','br','li'): self.parts.append('\n')
+    def handle_endtag(self,tag):
+        if tag in ('script','style','nav','svg') and self.skip: self.skip-=1
+    def handle_data(self,data):
+        if not self.skip: self.parts.append(data)
+
+def fetch_document(a):
+    import urllib.request
+    url=a['url']; parsed=urlsplit(url)
+    if parsed.scheme not in ('http','https') or not parsed.hostname or parsed.username or parsed.password:
+        raise ValueError('Use an HTTP(S) documentation URL without credentials')
+    start=a.get('start',0)
+    if type(start)!=int or start<0: raise ValueError('start must be a nonnegative character offset')
+    request=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'})
+    with urllib.request.urlopen(request,timeout=20) as response:
+        data=response.read(2_000_001)
+        if len(data)>2_000_000: raise ValueError('Document exceeds 2 MB limit')
+        content=data.decode(response.headers.get_content_charset() or 'utf-8',errors='replace')
+        if 'html' in response.headers.get_content_type():
+            parser=DocumentText(); parser.feed(content)
+            content='\n'.join(line.strip() for line in ''.join(parser.parts).splitlines() if line.strip())
+        return {'url':response.url,'status':response.status,'start':start,'total_characters':len(content),
+                'text':content[start:start+7000],
+                'next_start':start+7000 if start+7000<len(content) else None}
+
 def main():
     payload=json.loads(base64.b64decode(sys.argv[1])); root=payload['root']; a=payload['action']
     if a['tool'] in ('write','edit'): print(apply_file(root,a,payload['expected']))
     elif a['tool']=='read': print(read_range(root,a))
+    elif a['tool']=='fetch': print(json.dumps(fetch_document(a),ensure_ascii=True))
     elif a['tool']=='verify':
         result=verify(root,a['paths']); print(json.dumps(result)); sys.exit(0 if result['passed'] else 1)
     else: raise ValueError('Unsupported workspace operation')

@@ -55,7 +55,7 @@ def main():
         model.update(slug='gemma-e2b-pilot',display_name='Gemma E2B trained pilot via NOVA',
             context_window=args.context,max_context_window=args.context,supports_parallel_tool_calls=False,
             base_instructions='You are a concise coding agent on Windows PowerShell. Follow the task using the compact JSON action interface supplied by the adapter. Inspect relevant files before editing. Verify changes and report actual results. Never invent successful tests.'
-            + ' For HTTPS documentation requests, use Python urllib.request with User-Agent Mozilla/5.0; Windows curl may fail TLS in the sandbox. Python executable: '+str(Path(sys.executable))+'. Keep certificate verification enabled.')
+            + ' Use the fetch action for online documentation; do not disable TLS verification.')
         catalog_file=out/'catalog.json'; catalog_file.write_text(json.dumps(catalog))
         config={'model_provider':'gemma_remote','model_providers.gemma_remote.name':'NOVA Gemma',
             'model_providers.gemma_remote.base_url':f'http://127.0.0.1:{port}/v1',

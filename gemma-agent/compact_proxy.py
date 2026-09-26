@@ -24,6 +24,7 @@ Do not emit markdown, native tool calls, or patches as text. These JSON actions 
 {"tool":"read","path":"relative/file.py","start":161,"count":80}
 {"tool":"write","path":"relative/file.py","content":"complete new file content"}
 {"tool":"edit","path":"relative/file.py","old":"unique exact existing text","new":"replacement text"}
+{"tool":"fetch","url":"https://example.com/docs/"}
 {"tool":"check"}
 {"tool":"exec","cmd":"PowerShell command"}
 {"tool":"test"}
@@ -31,6 +32,7 @@ Do not emit markdown, native tool calls, or patches as text. These JSON actions 
 For conversation, answer with finish without tools. For coding work, inspect relevant files as needed.
 Use edit for existing files: old must match exactly once, including whitespace. Use write for new files.
 Parent folders are created for writes. Paths are relative to the selected workspace, NOT to the last shell command's directory.
+Use fetch for online documentation instead of composing shell download commands. It returns actual page text without writing files. Use optional start with next_start to read more. Never disable TLS verification.
 Use read with start/count for later lines. Output states which lines were returned.
 Use the simplest structure appropriate for the task. A self-contained HTML page is fine.
 Do not repeat whole source files in planning; emit the next complete JSON action.
@@ -88,7 +90,7 @@ class Adapter:
     def helper_command(self,a,expected=None):
         data=base64.b64encode(json.dumps({'root':str(self.root),'action':a,'expected':expected}).encode()).decode()
         quote=lambda x:"'"+str(x).replace("'","''")+"'"
-        return '# '+a['tool'].capitalize()+' '+json.dumps(a.get('path','workspace checks'))+'\n& '+quote(sys.executable)+' '+quote(Path(__file__).with_name('workspace_tools.py'))+' '+quote(data)
+        return '# '+a['tool'].capitalize()+' '+json.dumps(a.get('path',a.get('url','workspace checks')))+'\n& '+quote(sys.executable)+' '+quote(Path(__file__).with_name('workspace_tools.py'))+' '+quote(data)
 
     def check_paths(self,snapshot):
         # Deleted files are not missing deliverables. Do not pull in neighboring projects.
@@ -160,6 +162,8 @@ class Adapter:
         elif tool=='read' and set(a) in ({'tool','path'},{'tool','path','start','count'}):
             self.path(a['path'])
             if type(a.get('start',1))!=int or a.get('start',1)<1 or type(a.get('count',80))!=int or not 1<=a.get('count',80)<=160: raise ValueError('Use start >= 1 and count 1..160')
+            command=self.helper_command(a)
+        elif tool=='fetch' and set(a) in ({'tool','url'},{'tool','url','start'}) and isinstance(a['url'],str):
             command=self.helper_command(a)
         elif tool=='check' and set(a)=={'tool'}:
             command=self.helper_command({'tool':'verify','paths':paths})

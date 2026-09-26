@@ -7,11 +7,13 @@ ALLOWED=('http://127.0.0.1:8788/v1','http://192.168.86.51:8787/v1','https://nova
 ACTION_SCHEMA={'oneOf':[
     {'type':'object','properties':{'tool':{'const':tool},**{name:{'type':'string'} for name in fields}},
      'required':['tool',*fields],'additionalProperties':False}
-    for tool,fields in [('read',['path']),('write',['path','content']),('edit',['path','old','new']),('exec',['cmd']),('check',[]),('test',[]),('finish',['summary'])]
+    for tool,fields in [('fetch',['url']),('read',['path']),('write',['path','content']),('edit',['path','old','new']),('exec',['cmd']),('check',[]),('test',[]),('finish',['summary'])]
 ]}
 ACTION_SCHEMA['oneOf'].append({'type':'object','properties':{'tool':{'const':'read'},'path':{'type':'string'},
     'start':{'type':'integer','minimum':1},'count':{'type':'integer','minimum':1,'maximum':160}},
     'required':['tool','path','start','count'],'additionalProperties':False})
+
+ACTION_SCHEMA['oneOf'].append({'type':'object','properties':{'tool':{'const':'fetch'},'url':{'type':'string'},'start':{'type':'integer','minimum':0}},'required':['tool','url','start'],'additionalProperties':False})
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self,*args,**kwargs):

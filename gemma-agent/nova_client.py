@@ -27,7 +27,7 @@ class NovaClient:
         if not self.key: raise ValueError('NOVA_DESKTOP_API_KEY is required')
         self.http=urllib.request.build_opener(NoRedirect())
     def complete(self,messages,on_delta=None):
-        payload={'model':self.model,'messages':messages,'temperature':0,'seed':42,'max_tokens':2048,'stream':bool(on_delta),
+        payload={'model':self.model,'messages':messages,'temperature':0,'seed':42,'max_tokens':4096,'stream':bool(on_delta),
                  'response_format':{'type':'json_schema','json_schema':{'name':'agent_action','strict':True,'schema':ACTION_SCHEMA}}}
         if on_delta: payload['stream_options']={'include_usage':True}
         req=urllib.request.Request(self.url,data=json.dumps(payload).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+self.key})

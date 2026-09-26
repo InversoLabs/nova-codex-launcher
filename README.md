@@ -12,10 +12,10 @@ Place the GUI build in a `gui` folder next to these scripts, then use
 `Start-Launcher.ps1`; it reuses the existing Windows-protected Conductor key.
 The original provider profiles remain available.
 
-Requires PowerShell, Node.js, Codex CLI, SSH, and a running NOVA bridge. Configure the NOVA-SERVER SSH host and bridge addresses for your environment. Supply NOVA_DESKTOP_API_KEY privately through your environment. No key files are included.
+Requires PowerShell, Node.js, Python, Codex CLI, and a running NOVA bridge. The Gemma profile uses the existing bridge connection without SSH. Legacy profiles may use the existing NOVA-SERVER SSH configuration for warm-up. Supply NOVA_DESKTOP_API_KEY privately through your environment, or use Start-Launcher.ps1 to reuse the protected Conductor credential. No key files are included.
 
 Example:
 
 `powershell -ExecutionPolicy Bypass -File ./nova-codex-interactive.ps1 -Model gpt-oss:20b -Workspace C:/Projects/example -BaseUrl http://127.0.0.1:8788 -ContextTokens 16384`
 
-Start [NOVA Codex Proxy](https://github.com/InversoLabs/nova-codex-proxy) separately when using port 8788. Conductor and Director bundle their own launcher copy.
+The GUI starts the bundled [NOVA Codex Proxy](https://github.com/InversoLabs/nova-codex-proxy) when port 8788 is not already available. Command-line users should start it separately. Conductor and Director bundle their own launcher copy.

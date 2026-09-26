@@ -41,7 +41,7 @@ def main():
         env['CODEX_HOME']=str(home)
         catalog=json.loads((ROOT.parent/'nova-codex-models.json').read_text(encoding='utf-8-sig'))
         model=catalog['models'][0]
-        model.update(slug=args.model,display_name='Gemma E2B trained pilot via NOVA',
+        model.update(slug='gemma-e2b-pilot',display_name='Gemma E2B trained pilot via NOVA',
             context_window=args.context,max_context_window=args.context,supports_parallel_tool_calls=False,
             base_instructions='You are a concise coding agent on Windows PowerShell. Follow the task using the compact JSON action interface supplied by the adapter. Inspect relevant files before editing. Verify changes and report actual results. Never invent successful tests.')
         catalog_file=out/'catalog.json'; catalog_file.write_text(json.dumps(catalog))
@@ -54,7 +54,7 @@ def main():
             'tool_output_token_limit':1000,'features.plugins':False,'features.apps':False,
             'features.multi_agent':False,'features.remote_plugin':False,'features.skill_search':False,
             'features.code_mode.enabled':False,'web_search':'disabled'}
-        cmd=[str(codex),'-s',args.sandbox,'-C',str(workspace),'-m',args.model]
+        cmd=[str(codex),'-s',args.sandbox,'-C',str(workspace),'-m','gemma-e2b-pilot']
         for k,v in config.items(): cmd+=['-c',k+'='+json.dumps(v)]
         if args.prompt_file:
             cmd+=['exec','--skip-git-repo-check','--json','-o',str(out/'final.txt'),Path(args.prompt_file).read_text(encoding='utf-8-sig')]
@@ -63,7 +63,7 @@ def main():
             cmd[1:1]=['-a','on-request','--no-alt-screen']; stdout=None
         print('Starting '+args.model+' through your existing NOVA connection. Tools run in '+str(workspace),flush=True)
         print('This is the two-step training pilot, with the improved compact tool adapter.',flush=True)
-        child=subprocess.Popen(cmd,cwd=workspace,env=env,stdout=stdout)
+        child=subprocess.Popen(cmd,cwd=workspace,env=env,stdout=stdout,stderr=(out/'codex-errors.log').open('w',encoding='utf-8'))
         started=time.monotonic()
         while child.poll() is None:
             if proxy.poll() is not None: raise RuntimeError('The compact adapter stopped unexpectedly.')

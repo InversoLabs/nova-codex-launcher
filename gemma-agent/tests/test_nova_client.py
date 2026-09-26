@@ -19,6 +19,8 @@ class NovaTransportTests(unittest.TestCase):
             body=json.loads(req.data)
             self.assertEqual(body['model'],'pilot')
             self.assertNotIn('chat_template_kwargs',body)
+            self.assertEqual(body['response_format']['type'],'json_schema')
+            self.assertEqual(len(body['response_format']['json_schema']['schema']['oneOf']),5)
             return io.BytesIO(json.dumps({'choices':[{'message':{'content':'{"tool":"finish","summary":"done"}'}}]}).encode())
         client.http.open=respond
         self.assertIn('finish',client.complete([{'role':'user','content':'hello'}])[0])

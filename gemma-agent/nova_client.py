@@ -4,6 +4,11 @@ import os
 import time
 import urllib.request
 ALLOWED=('http://127.0.0.1:8788/v1','http://192.168.86.51:8787/v1','https://nova.inversolabs.us/v1')
+ACTION_SCHEMA={'oneOf':[
+    {'type':'object','properties':{'tool':{'const':tool},**{name:{'type':'string'} for name in fields}},
+     'required':['tool',*fields],'additionalProperties':False}
+    for tool,fields in [('read',['path']),('write',['path','content']),('exec',['cmd']),('test',[]),('finish',['summary'])]
+]}
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self,*args,**kwargs):
@@ -17,7 +22,8 @@ class NovaClient:
         if not self.key: raise ValueError('NOVA_DESKTOP_API_KEY is required')
         self.http=urllib.request.build_opener(NoRedirect())
     def complete(self,messages):
-        payload={'model':self.model,'messages':messages,'temperature':0,'seed':42,'max_tokens':1024,'stream':False}
+        payload={'model':self.model,'messages':messages,'temperature':0,'seed':42,'max_tokens':1024,'stream':False,
+                 'response_format':{'type':'json_schema','json_schema':{'name':'agent_action','strict':True,'schema':ACTION_SCHEMA}}}
         req=urllib.request.Request(self.url,data=json.dumps(payload).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+self.key})
         start=time.monotonic()
         with self.http.open(req,timeout=240) as response: result=json.loads(response.read(2_000_000))

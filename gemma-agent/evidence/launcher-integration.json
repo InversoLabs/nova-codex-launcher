@@ -1,0 +1,29 @@
+{
+  "date": "2026-09-26",
+  "model": "gemma4-codex:pilot-v1",
+  "training": "Two-step LoRA pilot; not a validated quality improvement",
+  "route": "Local Codex -> local compact adapter -> existing local NOVA proxy -> existing NOVA bridge -> Ollama",
+  "task": "Repair clamp function in a synthetic Python fixture",
+  "actions": [
+    {
+      "tool": "read",
+      "seconds": 10.812
+    },
+    {
+      "tool": "write",
+      "seconds": 16.407
+    },
+    {
+      "tool": "exec",
+      "seconds": 18.344
+    },
+    {
+      "tool": "finish",
+      "seconds": 12.0
+    }
+  ],
+  "codex_turn_completed": true,
+  "assertions_passed": 4,
+  "independent_verification": "Four assertions rerun independently: passed",
+  "mac_tested": false
+}

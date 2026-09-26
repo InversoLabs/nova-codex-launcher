@@ -1,0 +1,6 @@
+{
+    "model":  "gemma4-codex:pilot-v1",
+    "gguf_sha256":  "3a1499ffc4ca69561d7e6f9bd7867b9cc79f1d334129152ad222d0dbaaf6c3dd",
+    "bytes":  3349515808,
+    "scope":  "Two-step trained pilot; no quality improvement claimed"
+}

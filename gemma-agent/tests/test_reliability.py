@@ -9,6 +9,31 @@ from compact_proxy import Adapter,local_title
 from workspace_tools import apply_file,digest,read_range,verify,replaced_bytes
 
 class ReliabilityTests(unittest.TestCase):
+    def test_new_page_does_not_require_deleted_previous_project(self):
+        with tempfile.TemporaryDirectory() as d:
+            root=Path(d)
+            for name in ('script.js','server.js','style.css'):
+                (root/name).write_text('old project')
+            (root/'old.html').write_text('<script src="old-missing.js"></script>')
+            a=Adapter(d,'http://127.0.0.1:18190/v1',root/'log','')
+            a.touched.update(('script.js','server.js','style.css'))
+            for name in ('script.js','server.js','style.css'): (root/name).unlink()
+            (root/'index.html').write_text('<!doctype html><h1>New page</h1>')
+            item=a.translate({'tool':'check'},{'exec_command'})
+            payload=json.loads(base64.b64decode(json.loads(item['arguments'])['cmd'].split("'")[-2]))
+            self.assertEqual(payload['action']['paths'],['index.html'])
+            self.assertTrue(verify(d,payload['action']['paths'])['passed'])
+            (root/'index.html').write_text('<script src="needed.js"></script>')
+            self.assertFalse(verify(d,['index.html'])['passed'])
+
+    def test_explicit_check_does_not_scan_unchanged_project(self):
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d)/'old.js').write_text('broken(')
+            a=Adapter(d,'http://127.0.0.1:18190/v1',Path(d)/'log','')
+            item=a.translate({'tool':'check'},{'exec_command'})
+            payload=json.loads(base64.b64decode(json.loads(item['arguments'])['cmd'].split("'")[-2]))
+            self.assertEqual(payload['action']['paths'],[])
+
     @unittest.skipUnless(os.name=='nt','Windows sandbox command integration')
     def test_real_powershell_helper_round_trip_and_finish_gate(self):
         with tempfile.TemporaryDirectory(prefix='gemma helper ') as d:

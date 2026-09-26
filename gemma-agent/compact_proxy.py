@@ -28,11 +28,11 @@ Do not emit markdown, native tool calls, or patches as text. These JSON actions 
 {"tool":"exec","cmd":"PowerShell command"}
 {"tool":"test"}
 {"tool":"finish","summary":"short verified result"}
-Inspect the relevant files first. For discovery use exec with a short directory listing.
+For conversation, answer with finish without tools. For coding work, inspect relevant files as needed.
 Use edit for existing files: old must match exactly once, including whitespace. Use write for new files.
 Parent folders are created for writes. Paths are relative to the selected workspace, NOT to the last shell command's directory.
 Use read with start/count for later lines. Output states which lines were returned.
-Keep each file small and focused. Split HTML, CSS, and JavaScript into separate files.
+Use the simplest structure appropriate for the task. A self-contained HTML page is fine.
 Do not repeat whole source files in planning; emit the next complete JSON action.
 Use check for syntax and local asset checks. Use test when a test command is configured; otherwise run appropriate project checks with exec.
 Never print a success string as a substitute for checking. The adapter checks changes before accepting finish, but syntax checks do not establish functional correctness.
@@ -91,16 +91,14 @@ class Adapter:
         return '# '+a['tool'].capitalize()+' '+json.dumps(a.get('path','workspace checks'))+'\n& '+quote(sys.executable)+' '+quote(Path(__file__).with_name('workspace_tools.py'))+' '+quote(data)
 
     def check_paths(self,snapshot):
-        changed={p for p in set(snapshot)|set(self.baseline) if snapshot.get(p)!=self.baseline.get(p)}
-        paths=changed|self.touched
-        parents={str(Path(p).parent) for p in paths}
-        paths|={p for p in snapshot if Path(p).suffix.lower() in ('.html','.htm') and str(Path(p).parent) in parents}
-        return sorted(paths)
+        # Deleted files are not missing deliverables. Do not pull in neighboring projects.
+        changed={p for p in snapshot if snapshot[p]!=self.baseline.get(p)}
+        return sorted(changed | {p for p in self.touched if self.path(p).is_file()})
 
     def messages(self,body):
         # Preserve caller instructions and all conversation/tool evidence, changing only tool syntax.
         instructions=body.get('instructions','')
-        testing=('Configured test command: '+self.test_command) if self.test_command else 'No test command is configured. Use exec to discover and run appropriate project checks.'
+        testing=('Configured test command: '+self.test_command) if self.test_command else 'No test command is configured. Check coding changes as appropriate; conversation needs no checks.'
         messages=[{'role':'system','content':instructions+'\n\n'+INSTRUCTIONS+'\n'+testing}]
         inputs=body.get('input',[])
         if isinstance(inputs,str): inputs=[{'type':'message','role':'user','content':inputs}]
@@ -164,7 +162,7 @@ class Adapter:
             if type(a.get('start',1))!=int or a.get('start',1)<1 or type(a.get('count',80))!=int or not 1<=a.get('count',80)<=160: raise ValueError('Use start >= 1 and count 1..160')
             command=self.helper_command(a)
         elif tool=='check' and set(a)=={'tool'}:
-            command=self.helper_command({'tool':'verify','paths':paths or list(snapshot)})
+            command=self.helper_command({'tool':'verify','paths':paths})
             self.checks[call_id]=('check',snapshot)
         elif tool=='test' and set(a)=={'tool'}:
             if not self.test_command: return self.translate({'tool':'check'},allowed)

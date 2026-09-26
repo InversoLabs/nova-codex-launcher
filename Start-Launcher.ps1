@@ -21,4 +21,4 @@ if (-not $env:NOVA_DESKTOP_API_KEY) {
     }
 }
 # The visible launcher is explicitly requested; its helper processes stay hidden.
-Start-Process -FilePath (Join-Path $PSScriptRoot 'gui\NOVA.Codex.Launcher.exe') -WorkingDirectory $PSScriptRoot
+Start-Process -FilePath (Join-Path $PSScriptRoot 'gui\NOVA.Codex.Launcher.exe') -WorkingDirectory $PSScriptRoot -WindowStyle Normal

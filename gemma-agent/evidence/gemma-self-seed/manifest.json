@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "counts": {
+    "train": 17,
+    "validation": 8
+  },
+  "rejected": [
+    {
+      "file": "..\\evidence\\gemma-qat-gpu-suite\\reverse_text\\trajectory.json",
+      "reason": "Held-out test family excluded"
+    },
+    {
+      "file": "..\\evidence\\gemma-qat-gpu-suite\\within\\trajectory.json",
+      "reason": "Held-out test family excluded"
+    }
+  ],
+  "protocol_hashes": [
+    "df01baa1966be517f36ba5f8996a0fdff29cc8ca6f5c14fc2d78225f62694d1e"
+  ],
+  "files": {
+    "train": "a63a4ab55350e0e84e896d717476ed1f5deb17111ad981b5b3e425316818c9c9",
+    "validation": "812a0c486e4fa060c7f9899bedc64d0290a7eba10b186e14a4def6a2fead4671"
+  },
+  "reference_allowed": false,
+  "recovery_allowed": true,
+  "note": "Micro-task proof of pipeline; not a production training corpus. Failed actions are never supervised targets."
+}

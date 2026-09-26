@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "task_id": "normalize",
+  "family": "normalize",
+  "split": "train",
+  "task_hash": "f82cb94656637d98945614fce930929e807f790f6a939b29087d2b5e0f1b290b",
+  "protocol_hash": "fc4555798fc5db21a1ad78c7bfaa575eafdaafe8759fa800bbe6aae79b927910",
+  "kind": "teacher",
+  "model": "gpt-oss:20b",
+  "steps": [
+    {
+      "raw": "{\"path\": \"solution.py\", \"tool\": \"read\"}",
+      "usage": {
+        "prompt_tokens": 350,
+        "prompt_tokens_details": {
+          "cached_tokens": 333
+        },
+        "completion_tokens": 48,
+        "total_tokens": 398,
+        "_lab_source_tool_calls": [
+          {
+            "id": "call_ftb5amdf",
+            "index": 0,
+            "type": "function",
+            "function": {
+              "name": "agent_action",
+              "arguments": "{\"content\":\"\",\"path\":\"solution.py\",\"query\":\"normalize\",\"summary\":\"Read file\",\"tool\":\"read\"}"
+            }
+          }
+        ]
+      },
+      "seconds": 7.7810000000026776,
+      "action": {
+        "path": "solution.py",
+        "tool": "read"
+      },
+      "result": {
+        "content": "def normalize(text):\n    return text.upper()\n"
+      }
+    },
+    {
+      "raw": "{\"path\": \"solution.py\", \"content\": \"def normalize(text):\\n    return text.strip().lower()\\n\", \"tool\": \"write\"}",
+      "usage": {
+        "prompt_tokens": 401,
+        "prompt_tokens_details": {
+          "cached_tokens": 351
+        },
+        "completion_tokens": 61,
+        "total_tokens": 462,
+        "_lab_source_tool_calls": [
+          {
+            "id": "call_2mxl63bf",
+            "index": 0,
+            "type": "function",
+            "function": {
+              "name": "agent_action",
+              "arguments": "{\"path\":\"solution.py\",\"content\":\"def normalize(text):\\n    return text.strip().lower()\\n\",\"tool\":\"write\"}"
+            }
+          }
+        ]
+      },
+      "seconds": 10.360000000000582,
+      "action": {
+        "path": "solution.py",
+        "content": "def normalize(text):\n    return text.strip().lower()\n",
+        "tool": "write"
+      },
+      "result": {
+        "written": true
+      }
+    },
+    {
+      "raw": "{\"tool\": \"test\"}",
+      "usage": {
+        "prompt_tokens": 457,
+        "prompt_tokens_details": {
+          "cached_tokens": 402
+        },
+        "completion_tokens": 18,
+        "total_tokens": 475,
+        "_lab_source_tool_calls": [
+          {
+            "id": "call_bmnk26uq",
+            "index": 0,
+            "type": "function",
+            "function": {
+              "name": "agent_action",
+              "arguments": "{\"tool\":\"test\"}"
+            }
+          }
+        ]
+      },
+      "seconds": 4.561999999998079,
+      "action": {
+        "tool": "test"
+      },
+      "result": {
+        "passed": true,
+        "total": 3,
+        "failed_cases": []
+      }
+    },
+    {
+      "raw": "{\"tool\":\"finish\",\"summary\":\"normalize fixed\"}",
+      "usage": {
+        "prompt_tokens": 503,
+        "prompt_tokens_details": {
+          "cached_tokens": 474
+        },
+        "completion_tokens": 25,
+        "total_tokens": 528
+      },
+      "seconds": 5.421999999998661,
+      "action": {
+        "tool": "finish",
+        "summary": "normalize fixed"
+      },
+      "result": {
+        "finished": true
+      }
+    }
+  ],
+  "success": true,
+  "max_steps": 8,
+  "final_grade": {
+    "passed": true,
+    "total": 3,
+    "failed_cases": []
+  },
+  "final_source": "def normalize(text):\n    return text.strip().lower()\n",
+  "seconds": 28.125
+}

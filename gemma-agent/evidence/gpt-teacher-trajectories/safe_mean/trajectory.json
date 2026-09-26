@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "task_id": "safe_mean",
+  "family": "safe_mean",
+  "split": "validation",
+  "task_hash": "55f362ada85913c8defb5d74aac7b1dd553303831d88646cd17baf1657d3e6cf",
+  "protocol_hash": "fc4555798fc5db21a1ad78c7bfaa575eafdaafe8759fa800bbe6aae79b927910",
+  "kind": "teacher",
+  "model": "gpt-oss:20b",
+  "steps": [
+    {
+      "raw": "{\"path\": \"solution.py\", \"tool\": \"read\"}",
+      "usage": {
+        "prompt_tokens": 354,
+        "prompt_tokens_details": {
+          "cached_tokens": 333
+        },
+        "completion_tokens": 47,
+        "total_tokens": 401,
+        "_lab_source_tool_calls": [
+          {
+            "id": "call_ovi95j7g",
+            "index": 0,
+            "type": "function",
+            "function": {
+              "name": "agent_action",
+              "arguments": "{\"content\":\"\",\"path\":\"solution.py\",\"query\":\"\",\"summary\":\"read solution.py\",\"tool\":\"read\"}"
+            }
+          }
+        ]
+      },
+      "seconds": 8.156000000002678,
+      "action": {
+        "path": "solution.py",
+        "tool": "read"
+      },
+      "result": {
+        "content": "def safe_mean(values):\n    return sum(values)\n"
+      }
+    },
+    {
+      "raw": "{\"path\": \"solution.py\", \"content\": \"def safe_mean(values):\\n    return sum(values)/len(values) if values else 0\\n\", \"tool\": \"write\"}",
+      "usage": {
+        "prompt_tokens": 406,
+        "prompt_tokens_details": {
+          "cached_tokens": 355
+        },
+        "completion_tokens": 87,
+        "total_tokens": 493,
+        "_lab_source_tool_calls": [
+          {
+            "id": "call_ii0zafgs",
+            "index": 0,
+            "type": "function",
+            "function": {
+              "name": "agent_action",
+              "arguments": "{\"path\":\"solution.py\",\"content\":\"def safe_mean(values):\\n    return sum(values)/len(values) if values else 0\\n\",\"summary\":\"Implemented safe_mean\",\"tool\":\"write\"}"
+            }
+          }
+        ]
+      },
+      "seconds": 14.093999999997322,
+      "action": {
+        "path": "solution.py",
+        "content": "def safe_mean(values):\n    return sum(values)/len(values) if values else 0\n",
+        "tool": "write"
+      },
+      "result": {
+        "written": true
+      }
+    },
+    {
+      "raw": "{\"tool\": \"test\"}",
+      "usage": {
+        "prompt_tokens": 469,
+        "prompt_tokens_details": {
+          "cached_tokens": 407
+        },
+        "completion_tokens": 18,
+        "total_tokens": 487,
+        "_lab_source_tool_calls": [
+          {
+            "id": "call_dh8u5l05",
+            "index": 0,
+            "type": "function",
+            "function": {
+              "name": "agent_action",
+              "arguments": "{\"tool\":\"test\"}"
+            }
+          }
+        ]
+      },
+      "seconds": 4.64100000000326,
+      "action": {
+        "tool": "test"
+      },
+      "result": {
+        "passed": true,
+        "total": 4,
+        "failed_cases": []
+      }
+    },
+    {
+      "raw": "{\"tool\":\"finish\",\"summary\":\"Implemented safe_mean correctly\"}",
+      "usage": {
+        "prompt_tokens": 515,
+        "prompt_tokens_details": {
+          "cached_tokens": 486
+        },
+        "completion_tokens": 27,
+        "total_tokens": 542
+      },
+      "seconds": 5.5939999999973224,
+      "action": {
+        "tool": "finish",
+        "summary": "Implemented safe_mean correctly"
+      },
+      "result": {
+        "finished": true
+      }
+    }
+  ],
+  "success": true,
+  "max_steps": 8,
+  "final_grade": {
+    "passed": true,
+    "total": 4,
+    "failed_cases": []
+  },
+  "final_source": "def safe_mean(values):\n    return sum(values)/len(values) if values else 0\n",
+  "seconds": 32.48500000000058
+}

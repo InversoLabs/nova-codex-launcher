@@ -39,10 +39,13 @@ def bounded(self,data,name,bid):
             if mapped!='per_layer_token_embd.weight': raise ValueError('Unexpected PLE mapping')
             file=self.dir_model/'model.safetensors'
             with safe_open(str(file),framework='np') as reader:
-                source=reader.get_slice(name)
+                candidates=[key for key in (name,name.replace('model.','model.language_model.',1)) if key in reader.keys()]
+                if len(candidates)!=1: raise ValueError('Expected exactly one source PLE table')
+                source_key=candidates[0]
+                source=reader.get_slice(source_key)
                 if source.get_shape()!=list(tensor.shape) or source.get_dtype()!='F16':
                     raise ValueError('Chunked export requires the merged FP16 table unchanged')
-            yield mapped,chunked(file,name,tensor.shape)
+            yield mapped,chunked(file,source_key,tensor.shape)
         else: yield mapped,tensor
 Gemma4Model.modify_tensors=bounded
 main()

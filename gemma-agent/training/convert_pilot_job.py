@@ -1,4 +1,4 @@
-"""Memory-bounded conversion and quantization, with restoration in finally."""
+"""Memory-bounded CPU conversion, leaving existing inference models alone."""
 import ctypes
 import json
 import os
@@ -18,7 +18,7 @@ def available():
 
 def main():
     root=Path(__file__).resolve().parents[1]
-    out=root/'runs/convert-pilot-v4'; out.mkdir(exist_ok=False)
+    out=root/'runs/convert-pilot-v5'; out.mkdir(exist_ok=False)
     state={'phase':'preflight','success':False,'restored':None}
     def update(**values):
         state.update(values); (out/'result.json').write_text(json.dumps(state,indent=2)); print(json.dumps(state),flush=True)
@@ -28,9 +28,6 @@ def main():
         except RuntimeError:
             if time.monotonic()>deadline: raise RuntimeError('Conductor stayed active; conversion was not started')
             update(phase='waiting_for_conductor'); time.sleep(15)
-    models=request('http://127.0.0.1:11434/api/ps')['models']
-    if any(m['name']!='gpt-oss:20b' for m in models): raise RuntimeError('Another model is active')
-    original=next(iter(models),None)
     env={**os.environ,'OMP_NUM_THREADS':'2','MKL_NUM_THREADS':'2','PYTHONDONTWRITEBYTECODE':'1'}
     def run(command,name):
         with (out/(name+'.log')).open('w',encoding='utf-8') as log:
@@ -49,7 +46,6 @@ def main():
                     subprocess.run(['taskkill','/PID',str(child.pid),'/T','/F'],capture_output=True)
                     child.wait(timeout=30)
     try:
-        if original: request('http://127.0.0.1:11434/api/generate',{'model':original['name'],'keep_alive':0},60)
         if available()<8*1024**3: raise RuntimeError('Chunked conversion needs at least 8GB available RAM')
         run([str(root/'.venv-training/Scripts/python.exe'),'-u',str(root/'training/convert_chunked.py'),
             str(root/'runs/export-pilot-v1/export/merged'),'--outfile',str(out/'gemma-pilot-f16.gguf'),
@@ -59,13 +55,6 @@ def main():
         update(success=True)
     except Exception as exc: update(error=str(exc))
     finally:
-        if original:
-            update(phase='restore')
-            try:
-                request('http://127.0.0.1:11434/api/generate',{'model':original['name'],'prompt':'','stream':False,'keep_alive':-1,
-                    'options':{'num_ctx':original.get('context_length',8192),'num_predict':1}},300)
-                update(restored=any(m['name']==original['name'] for m in request('http://127.0.0.1:11434/api/ps')['models']))
-            except Exception as exc: update(restored=False,restore_error=str(exc))
         update(phase='complete' if state['success'] else 'failed')
 
 if __name__=='__main__': main()

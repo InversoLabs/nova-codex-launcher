@@ -1,0 +1,10 @@
+{
+  "model": "gpt-oss:20b",
+  "tasks": 8,
+  "successes": 8,
+  "pass_rate": 1.0,
+  "action_errors": 0,
+  "seconds": 258.95399999999063,
+  "scope": "Original pure-Python micro-task baseline, not general repo coding.",
+  "protocol_hash": "fc4555798fc5db21a1ad78c7bfaa575eafdaafe8759fa800bbe6aae79b927910"
+}

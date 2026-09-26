@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "task_id": "is_even",
+  "family": "is_even",
+  "split": "train",
+  "task_hash": "1dfc2e3eba187a4ee6d37f75114b9fc6e72eba6cb7804a76182b8d01a302ea42",
+  "protocol_hash": "fc4555798fc5db21a1ad78c7bfaa575eafdaafe8759fa800bbe6aae79b927910",
+  "kind": "teacher",
+  "model": "gpt-oss:20b",
+  "steps": [
+    {
+      "raw": "{\"path\": \"solution.py\", \"tool\": \"read\"}",
+      "usage": {
+        "prompt_tokens": 353,
+        "prompt_tokens_details": {
+          "cached_tokens": 333
+        },
+        "completion_tokens": 48,
+        "total_tokens": 401,
+        "_lab_source_tool_calls": [
+          {
+            "id": "call_2so9qk3x",
+            "index": 0,
+            "type": "function",
+            "function": {
+              "name": "agent_action",
+              "arguments": "{\"content\":\"\",\"path\":\"solution.py\",\"query\":\"\",\"summary\":\"read solution.py\",\"tool\":\"read\"}"
+            }
+          }
+        ]
+      },
+      "seconds": 7.906999999999243,
+      "action": {
+        "path": "solution.py",
+        "tool": "read"
+      },
+      "result": {
+        "content": "def is_even(n):\n    return n % 2 == 1\n"
+      }
+    },
+    {
+      "raw": "{\"path\": \"solution.py\", \"content\": \"def is_even(n):\\n    return n % 2 == 0\\n\", \"tool\": \"write\"}",
+      "usage": {
+        "prompt_tokens": 409,
+        "prompt_tokens_details": {
+          "cached_tokens": 354
+        },
+        "completion_tokens": 97,
+        "total_tokens": 506,
+        "_lab_source_tool_calls": [
+          {
+            "id": "call_vythh2xb",
+            "index": 0,
+            "type": "function",
+            "function": {
+              "name": "agent_action",
+              "arguments": "{\"path\":\"solution.py\",\"content\":\"def is_even(n):\\n    return n % 2 == 0\\n\",\"summary\":\"Fixed is_even to check evenness\",\"tool\":\"write\"}"
+            }
+          }
+        ]
+      },
+      "seconds": 15.328000000001339,
+      "action": {
+        "path": "solution.py",
+        "content": "def is_even(n):\n    return n % 2 == 0\n",
+        "tool": "write"
+      },
+      "result": {
+        "written": true
+      }
+    },
+    {
+      "raw": "{\"tool\": \"test\"}",
+      "usage": {
+        "prompt_tokens": 468,
+        "prompt_tokens_details": {
+          "cached_tokens": 410
+        },
+        "completion_tokens": 18,
+        "total_tokens": 486,
+        "_lab_source_tool_calls": [
+          {
+            "id": "call_r81nneda",
+            "index": 0,
+            "type": "function",
+            "function": {
+              "name": "agent_action",
+              "arguments": "{\"tool\":\"test\"}"
+            }
+          }
+        ]
+      },
+      "seconds": 4.764999999999418,
+      "action": {
+        "tool": "test"
+      },
+      "result": {
+        "passed": true,
+        "total": 4,
+        "failed_cases": []
+      }
+    },
+    {
+      "raw": "{\"tool\":\"finish\",\"summary\":\"Fixed is_even to correctly detect even numbers\"}",
+      "usage": {
+        "prompt_tokens": 514,
+        "prompt_tokens_details": {
+          "cached_tokens": 485
+        },
+        "completion_tokens": 31,
+        "total_tokens": 545
+      },
+      "seconds": 6.2039999999979045,
+      "action": {
+        "tool": "finish",
+        "summary": "Fixed is_even to correctly detect even numbers"
+      },
+      "result": {
+        "finished": true
+      }
+    }
+  ],
+  "success": true,
+  "max_steps": 8,
+  "final_grade": {
+    "passed": true,
+    "total": 4,
+    "failed_cases": []
+  },
+  "final_source": "def is_even(n):\n    return n % 2 == 0\n",
+  "seconds": 34.203999999997905
+}

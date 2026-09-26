@@ -27,6 +27,9 @@ def main():
     out=out.resolve(); out.mkdir(parents=True,exist_ok=False)
     env={k:v for k,v in os.environ.items() if not k.startswith(('CODEX_','NOVA_','OPENAI_'))}
     env.update(PYTHONDONTWRITEBYTECODE='1',TERM='xterm-256color')
+    if not args.prompt_file:
+        env.pop('NO_COLOR',None)
+        env['COLORTERM']='truecolor'
     proxy_env={**env,'NOVA_DESKTOP_API_KEY':os.environ['NOVA_DESKTOP_API_KEY']}
     proxy=None; child=None
     try:
@@ -64,7 +67,8 @@ def main():
             cmd[1:1]=['-a','on-request','--no-alt-screen']; stdout=None
         print('Starting '+args.model+' through your existing NOVA connection. Tools run in '+str(workspace),flush=True)
         print('This is the two-step training pilot, with the improved compact tool adapter.',flush=True)
-        child=subprocess.Popen(cmd,cwd=workspace,env=env,stdout=stdout,stderr=(out/'codex-errors.log').open('w',encoding='utf-8'))
+        stderr=(out/'codex-errors.log').open('w',encoding='utf-8') if args.prompt_file else None
+        child=subprocess.Popen(cmd,cwd=workspace,env=env,stdout=stdout,stderr=stderr)
         started=time.monotonic()
         while child.poll() is None:
             if proxy.poll() is not None: raise RuntimeError('The compact adapter stopped unexpectedly.')

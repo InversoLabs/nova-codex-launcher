@@ -1,4 +1,8 @@
 $ErrorActionPreference='Stop'
+# Interactive windows must not inherit the automation host's plain-text mode.
+Remove-Item Env:NO_COLOR -ErrorAction SilentlyContinue
+$env:TERM='xterm-256color'
+$env:COLORTERM='truecolor'
 # Reuse the current user's existing Conductor credential without writing cleartext.
 if (-not $env:NOVA_DESKTOP_API_KEY) {
     $provider=Join-Path $env:LOCALAPPDATA 'NovaConductor\provider.json'

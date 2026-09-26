@@ -263,8 +263,11 @@ class LiveEvents:
                 data['response']['id']=self.response['id']
                 if self.reasoning: data['response']['output'].insert(0,self.reasoning)
             self.send(event,data)
-    def fail(self):
-        self.response.update(status='failed',error={'code':'adapter_error','message':'Gemma could not produce a complete action. No partial edit was executed. See the local adapter error log.'})
+    def fail(self,exc=None):
+        message='Gemma could not produce a complete action. No partial edit was executed. See failures.jsonl in the session logs.'
+        if getattr(exc,'code',None)==401:
+            message='NOVA rejected the API credential (HTTP 401). Reopen the launcher with the saved NOVA key. No edit was executed.'
+        self.response.update(status='failed',error={'code':'adapter_error','message':message})
         self.send('response.failed',{'response':self.response})
 
 def events(item,usage,model):
@@ -346,7 +349,7 @@ def main():
                 with adapter.log.with_name('failures.jsonl').open('a',encoding='utf-8') as f:
                     f.write(json.dumps({'time':time.time(),'error_type':type(exc).__name__,'message':str(exc)[:300]})+'\n')
                 if streaming:
-                    try: live.fail()
+                    try: live.fail(exc)
                     except (BrokenPipeError,ConnectionError,OSError): pass
                 else: self.send_error(502,'Invalid adapter request')
     server=ThreadingHTTPServer(('127.0.0.1',0),Handler)

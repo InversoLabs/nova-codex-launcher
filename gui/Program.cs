@@ -36,7 +36,7 @@ internal sealed class LauncherForm : Form
 
     public LauncherForm()
     {
-        Text = "NOVA Codex Launcher";
+        Text = "NOVA Codex Launcher — Gemma 4K / 8K / 16K / 32K";
         StartPosition = FormStartPosition.CenterScreen;
         MinimumSize = new Size(680, 640);
         Size = new Size(760, 720);
@@ -104,6 +104,10 @@ internal sealed class LauncherForm : Form
             if (_model.SelectedItem?.ToString() == GemmaChoice)
             {
                 _reasoning.Enabled = false;
+                var requestedContext = Environment.GetEnvironmentVariable("NOVA_LAUNCH_CONTEXT");
+                if (requestedContext == "32768") _context.SelectedIndex = 4;
+                else if (requestedContext == "16384") _context.SelectedIndex = 3;
+                else if (requestedContext == "4096") _context.SelectedIndex = 0;
                 SetStatus("Trained Gemma pilot through your existing NOVA URL and API key.");
             }
         };

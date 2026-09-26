@@ -1,4 +1,6 @@
+param([ValidateSet(0,4096,8192,16384,32768)][int]$ContextTokens=0)
 $ErrorActionPreference='Stop'
+if ($ContextTokens) { $env:NOVA_LAUNCH_CONTEXT=[string]$ContextTokens }
 # Interactive windows must not inherit the automation host's plain-text mode.
 Remove-Item Env:NO_COLOR -ErrorAction SilentlyContinue
 $env:TERM='xterm-256color'

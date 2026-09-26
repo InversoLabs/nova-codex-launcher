@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "counts": {
+    "train": 16,
+    "validation": 8
+  },
+  "rejected": [
+    {
+      "file": "runs\\gpt-teacher-seed\\reverse_text\\trajectory.json",
+      "reason": "Held-out test family excluded"
+    },
+    {
+      "file": "runs\\gpt-teacher-seed\\within\\trajectory.json",
+      "reason": "Held-out test family excluded"
+    }
+  ],
+  "protocol_hashes": [
+    "fc4555798fc5db21a1ad78c7bfaa575eafdaafe8759fa800bbe6aae79b927910"
+  ],
+  "files": {
+    "train": "fdf7c120fd89ea83ebd652686e2b5291eac4d2224a1734bc4cc883ea6f6d68dc",
+    "validation": "f436c1e2fb259ed5d85abca031e5f3856f1646709f3c8111fc9d0ef8134bbb93"
+  },
+  "reference_allowed": false,
+  "recovery_allowed": false,
+  "note": "Micro-task proof of pipeline; not a production training corpus. Failed actions are never supervised targets."
+}

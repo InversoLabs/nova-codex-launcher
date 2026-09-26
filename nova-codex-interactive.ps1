@@ -19,6 +19,11 @@ param(
     [int]$AppServerPort = 0
 )
 
+if ($Model -eq 'gemma4-codex:pilot-v1') {
+    & (Join-Path $PSScriptRoot 'nova-gemma.ps1') -Workspace $Workspace -BaseUrl $BaseUrl -Sandbox $Sandbox -ContextTokens $ContextTokens -PromptFile $PromptFile
+    return
+}
+
 $AutoCompactTokens = switch ($ContextTokens) {
     4096 { 3000 }
     12288 { 9000 }

@@ -1,0 +1,41 @@
+{
+  "base_model": "google/gemma-4-E2B-it-qat-q4_0-unquantized",
+  "base_revision": "6befbaca7398925921802abd1f277b495b78b738",
+  "converter_commit": "1e7bcf3da4b2741868d152fa47976fb2501c85e3",
+  "pilot_steps": 2,
+  "adapter_archive": "gemma-pilot-adapter-v1.zip",
+  "adapter_archive_sha256": "a4291abd1031225cf08a72558c330cd899086f761e0ae364e06e1835033be5b3",
+  "scope": "Training checkpoint backup; no coding-quality improvement claimed",
+  "files": [
+    {
+      "name": "adapter_config.json",
+      "bytes": 1240,
+      "sha256": "a7d359b7490603bb30553110fd0fe31277d5dea94336f0c945510c4bb1638384"
+    },
+    {
+      "name": "adapter_model.safetensors",
+      "bytes": 4937520,
+      "sha256": "6487b9539e6579d3827271e3c80411aab4ed49373078635cb29396d2c20ed5e3"
+    },
+    {
+      "name": "chat_template.jinja",
+      "bytes": 18955,
+      "sha256": "c0e1a4e78b51cbe4924a195b1939a1e0728e86054736d92f370692d1709abb4c"
+    },
+    {
+      "name": "README.md",
+      "bytes": 5348,
+      "sha256": "4ccca27090fae5b861f8596da1fa9a9d5a30d2d41bd45cbdcb7bbce672468806"
+    },
+    {
+      "name": "tokenizer_config.json",
+      "bytes": 3869,
+      "sha256": "81a234ab08c2899d8240a138e128d61318c8047879368adde490f3cce009d7eb"
+    },
+    {
+      "name": "tokenizer.json",
+      "bytes": 32169626,
+      "sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f"
+    }
+  ]
+}

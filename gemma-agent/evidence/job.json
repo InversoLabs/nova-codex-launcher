@@ -1,0 +1,12 @@
+{
+  "phase": "complete",
+  "started": 1790398787.731568,
+  "training_success": true,
+  "restored": true,
+  "pid": 11240,
+  "conductor_health": {
+    "app": "nova-conductor-ui",
+    "version": "0.6.0-preview.1"
+  },
+  "finished": 1790399158.7989311
+}

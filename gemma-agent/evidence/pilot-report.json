@@ -1,0 +1,29 @@
+{
+  "scope": "Real-weight pilot only; too little data to claim improved coding capability.",
+  "source": {
+    "repo": "google/gemma-4-E2B-it-qat-q4_0-unquantized",
+    "revision": "6befbaca7398925921802abd1f277b495b78b738"
+  },
+  "steps": [
+    {
+      "step": 1,
+      "loss": 1.8404655456542969,
+      "gradient_norm": 3.4791600704193115,
+      "seconds": 5.921999999998661,
+      "peak_gpu_bytes": 2033421312
+    },
+    {
+      "step": 2,
+      "loss": 0.6257951259613037,
+      "gradient_norm": 1.4231784343719482,
+      "seconds": 4.671999999998661,
+      "peak_gpu_bytes": 2089436672
+    }
+  ],
+  "success": true,
+  "quantized_compute_dtype": "torch.float32",
+  "retained_examples": 16,
+  "trainable_parameters": 1228800,
+  "initial_validation_loss": 1.8315708637237549,
+  "final_validation_loss": 1.7628014087677002
+}

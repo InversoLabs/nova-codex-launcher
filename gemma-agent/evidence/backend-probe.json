@@ -1,0 +1,53 @@
+{
+  "versions": {
+    "torch": "2.11.0+cu126",
+    "transformers": "5.17.0",
+    "peft": "0.21.0",
+    "accelerate": "1.15.0",
+    "bitsandbytes": "0.50.2"
+  },
+  "cuda_available": true,
+  "devices": [
+    {
+      "name": "Quadro P1000",
+      "capability": [
+        6,
+        1
+      ],
+      "free_total_bytes": [
+        3524683366,
+        4294705152
+      ]
+    },
+    {
+      "name": "Quadro P1000",
+      "capability": [
+        6,
+        1
+      ],
+      "free_total_bytes": [
+        3524683366,
+        4294836224
+      ]
+    }
+  ],
+  "scope": "Synthetic tiny Gemma4 architecture and NF4 backend checks only; no pretrained fine-tune.",
+  "kv_shared_training_parity": {
+    "max_logit_difference": 0.0,
+    "passed": true
+  },
+  "tiny_gemma_lora": {
+    "loss": 5.561271667480469,
+    "nonzero_gradient_tensors": 10,
+    "passed": true
+  },
+  "nf4": {
+    "passed": true
+  },
+  "hybrid_cpu_embeddings": {
+    "passed": true,
+    "loss": 5.533276557922363,
+    "nonzero_gradient_tensors": 10,
+    "embedding_device": "cpu"
+  }
+}

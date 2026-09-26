@@ -16,6 +16,8 @@ __pycache__/
 *.log
 *.gguf
 *.safetensors
+*.dpapi
+*.lnk
 *.tgz
 *.zip
 *.tar.gz

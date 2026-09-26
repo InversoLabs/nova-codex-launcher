@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-26",
+  "automated_tests": 34,
+  "tests_passed": true,
+  "native_windows_round_trip": "Targeted edit, syntax check, configured functional test and finish gate passed",
+  "title_regression": "Environment-prefixed title handled without inference",
+  "live_gemma": "Read lines 181-187 successfully; test intentionally stopped while a Conductor newsroom job was active",
+  "full_live_model_rerun_completed": false,
+  "model_weights_changed": false,
+  "server_settings_changed": false,
+  "limitations": [
+    "Automatic checks do not establish functional correctness without a configured test command",
+    "No browser/CSS semantic or project-intent verifier",
+    "2048 upstream output-token limit remains; smaller edits and bounded retries mitigate it"
+  ]
+}

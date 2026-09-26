@@ -7,6 +7,7 @@ import argparse
 import base64
 import hashlib
 import json
+import queue
 import threading
 import time
 import uuid
@@ -23,6 +24,8 @@ Do not emit markdown, native tool calls, or patches as text. These JSON actions 
 {"tool":"finish","summary":"short verified result"}
 Inspect the relevant files first. For discovery use exec with a short directory listing.
 Use write to edit; Codex executes a guarded file update.
+Keep each file small and focused. Split HTML, CSS, and JavaScript into separate files.
+Do not repeat whole source files in planning; emit the next complete JSON action.
 Use test only when a test command is configured; otherwise run appropriate checks with exec.
 For coding tasks, finish only after observing verification. For questions, answer with finish.
 On tool failure repair the problem and retry. Never claim a failed tool succeeded.
@@ -90,7 +93,7 @@ class Adapter:
             else:
                 guard="if (Test-Path -LiteralPath "+quoted+") { throw 'File already exists' }; "
             encoded=base64.b64encode(content.encode('utf-8')).decode('ascii')
-            command="$ErrorActionPreference='Stop'; "+guard+"[IO.File]::WriteAllBytes("+quoted+",[Convert]::FromBase64String('"+encoded+"')); Write-Output 'File updated'"
+            command='# Write workspace file: '+json.dumps(a['path'])+'\n'+"$ErrorActionPreference='Stop'; "+guard+"[IO.File]::WriteAllBytes("+quoted+",[Convert]::FromBase64String('"+encoded+"')); Write-Output 'File updated'"
             result={'type':'function_call','id':'fc_'+ident,'call_id':call_id,'name':'exec_command',
                     'arguments':json.dumps({'cmd':command,'workdir':str(self.root),'max_output_tokens':200,'yield_time_ms':10000}),'status':'completed'}
         else:
@@ -106,14 +109,74 @@ class Adapter:
         self.calls[call_id]=a
         return result
 
-    def complete(self,body):
+    def complete(self,body,on_delta=None):
         allowed={t.get('name') for t in body.get('tools',[])}
         messages=self.messages(body)
-        raw,usage,seconds=self.client.complete(messages)
-        a=json.loads(raw); item=self.translate(a,allowed)
+        total_seconds=0; total_usage={}
+        for attempt in range(2):
+            raw,usage,seconds=(self.client.complete(messages,on_delta) if on_delta else self.client.complete(messages))
+            total_seconds+=seconds
+            for key in ('prompt_tokens','completion_tokens','total_tokens'):
+                total_usage[key]=total_usage.get(key,0)+usage.get(key,0)
+            try:
+                if getattr(self.client,'last_finish_reason',None)=='length': raise ValueError('Output token limit reached')
+                a=json.loads(raw)
+                break
+            except (json.JSONDecodeError,ValueError):
+                if attempt: raise ValueError('Gemma returned an incomplete action twice. No partial edit was executed. Request a smaller file or change.')
+                if on_delta: on_delta('status','Retrying an incomplete action with a smaller response. No partial edit was executed.\n')
+                messages.append({'role':'user','content':'Your previous response was incomplete and was NOT executed. Return a smaller complete JSON action. Keep file content under 2500 characters; split work across separate files. Do not repeat source code in planning.'})
+        item=self.translate(a,allowed)
+        usage=total_usage; seconds=total_seconds
         with self.log.open('a',encoding='utf-8') as f:
             f.write(json.dumps({'messages':messages,'action':a,'native_item':item,'usage':usage,'seconds':seconds})+'\n')
         return item,usage
+
+def local_title(body):
+    # Codex's auxiliary title request is tool-free. Never divert ordinary coding turns.
+    if body.get('tools'): return None
+    inputs=body.get('input',[])
+    text=inputs if isinstance(inputs,str) else '\n'.join(text_content(x.get('content','')) for x in inputs if x.get('type','message')=='message')
+    if not text.startswith('Generate a concise, single-line task title of at most 36 characters'): return None
+    prompt=text.partition('User prompt:')[2].strip()
+    title=' '.join(prompt.split()[:5])[:36].rstrip(' .,:;') or 'NOVA Gemma task'
+    return {'type':'message','id':'msg_'+uuid.uuid4().hex,'role':'assistant','status':'completed',
+            'content':[{'type':'output_text','text':title,'annotations':[]}]}
+
+class LiveEvents:
+    """Forward externally generated reasoning; never synthesize model thoughts."""
+    def __init__(self,send,model):
+        self.send=send; self.model=model; self.reasoning=None; self.text=''
+        self.response={'id':'resp_'+uuid.uuid4().hex,'object':'response','created_at':int(time.time()),'model':model,'status':'in_progress','output':[]}
+        send('response.created',{'response':dict(self.response)})
+    def delta(self,kind,text):
+        if kind=='content': return  # Partial JSON must never become an executable tool call.
+        if not self.reasoning:
+            self.reasoning={'id':'rs_'+uuid.uuid4().hex,'type':'reasoning','status':'in_progress','summary':[]}
+            self.send('response.output_item.added',{'output_index':0,'item':dict(self.reasoning)})
+            self.send('response.reasoning_summary_part.added',{'output_index':0,'item_id':self.reasoning['id'],'summary_index':0,'part':{'type':'summary_text','text':''}})
+        if kind=='status': text='\n[Adapter status] '+text
+        self.text+=text
+        self.send('response.reasoning_summary_text.delta',{'output_index':0,'item_id':self.reasoning['id'],'summary_index':0,'delta':text})
+    def finish(self,item,usage):
+        offset=int(self.reasoning is not None)
+        if self.reasoning:
+            common={'output_index':0,'item_id':self.reasoning['id'],'summary_index':0}
+            part={'type':'summary_text','text':self.text}
+            self.send('response.reasoning_summary_text.done',{**common,'text':self.text})
+            self.send('response.reasoning_summary_part.done',{**common,'part':part})
+            self.reasoning.update(status='completed',summary=[part])
+            self.send('response.output_item.done',{'output_index':0,'item':self.reasoning})
+        for event,data in events(item,usage,self.model):
+            if event=='response.created': continue
+            if 'output_index' in data: data['output_index']+=offset
+            if event=='response.completed':
+                data['response']['id']=self.response['id']
+                if self.reasoning: data['response']['output'].insert(0,self.reasoning)
+            self.send(event,data)
+    def fail(self):
+        self.response.update(status='failed',error={'code':'adapter_error','message':'Gemma could not produce a complete action. No partial edit was executed. See the local adapter error log.'})
+        self.send('response.failed',{'response':self.response})
 
 def events(item,usage,model):
     response={'id':'resp_'+uuid.uuid4().hex,'object':'response','created_at':int(time.time()),'model':model,
@@ -152,17 +215,51 @@ def main():
         def do_POST(self):
             if self.headers.get('Origin'): self.send_error(403,'Browser requests are not supported'); return
             if self.path!='/v1/responses': self.send_error(404); return
+            streaming=False
             try:
                 length=int(self.headers.get('Content-Length','0'))
                 if length<=0 or length>2_000_000: raise ValueError('Invalid request size')
                 body=json.loads(self.rfile.read(length))
-                with lock: item,usage=adapter.complete(body)
-                self.send_response(200); self.send_header('Content-Type','text/event-stream'); self.end_headers()
-                for i,(event,data) in enumerate(events(item,usage,body['model'])):
-                    payload={'type':event,'sequence_number':i,**data}
+                self.send_response(200); self.send_header('Content-Type','text/event-stream'); self.send_header('Cache-Control','no-cache'); self.end_headers()
+                streaming=True; sequence=0
+                def send(event,data):
+                    nonlocal sequence
+                    payload={'type':event,'sequence_number':sequence,**data}; sequence+=1
                     self.wfile.write(('event: '+event+'\ndata: '+json.dumps(payload)+'\n\n').encode()); self.wfile.flush()
+                live=LiveEvents(send,body['model'])
+                title=local_title(body)
+                if title: live.finish(title,{}); return
+                pending=queue.Queue(maxsize=256); cancelled=threading.Event()
+                def put(value):
+                    while not cancelled.is_set():
+                        try: pending.put(value,timeout=1); return
+                        except queue.Full: pass
+                    raise ConnectionAbortedError('Codex disconnected')
+                def worker():
+                    try:
+                        with lock:
+                            if cancelled.is_set(): return
+                            result=adapter.complete(body,lambda kind,text:put(('delta',(kind,text))))
+                        put(('result',result))
+                    except Exception as exc:
+                        if not cancelled.is_set(): put(('error',exc))
+                threading.Thread(target=worker,daemon=True).start()
+                try:
+                    while True:
+                        try: kind,value=pending.get(timeout=10)
+                        except queue.Empty:
+                            self.wfile.write(b': waiting for NOVA\n\n'); self.wfile.flush(); continue
+                        if kind=='delta': live.delta(*value)
+                        elif kind=='result': live.finish(*value); break
+                        else: raise value
+                finally: cancelled.set()
             except Exception as exc:
-                self.send_error(502,str(exc))
+                with adapter.log.with_name('failures.jsonl').open('a',encoding='utf-8') as f:
+                    f.write(json.dumps({'time':time.time(),'error_type':type(exc).__name__,'message':str(exc)[:300]})+'\n')
+                if streaming:
+                    try: live.fail()
+                    except (BrokenPipeError,ConnectionError,OSError): pass
+                else: self.send_error(502,'Invalid adapter request')
     server=ThreadingHTTPServer(('127.0.0.1',0),Handler)
     print(server.server_port,flush=True); server.serve_forever()
 

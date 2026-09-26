@@ -1,0 +1,36 @@
+{
+  "date": "2026-09-26",
+  "model": "gemma4-codex:pilot-v1",
+  "test": "Read, repair and test clamp fixture with streamed external reasoning",
+  "turn_completed": true,
+  "reasoning_items": 4,
+  "skills_catalog_injected": false,
+  "unit_tests_passed": 20,
+  "actions": [
+    {
+      "tool": "read",
+      "seconds": 12.891,
+      "input_tokens": 979,
+      "output_tokens": 105
+    },
+    {
+      "tool": "write",
+      "seconds": 15.156,
+      "input_tokens": 1060,
+      "output_tokens": 163
+    },
+    {
+      "tool": "test",
+      "seconds": 15.046,
+      "input_tokens": 1155,
+      "output_tokens": 161
+    },
+    {
+      "tool": "finish",
+      "seconds": 12.203,
+      "input_tokens": 1218,
+      "output_tokens": 126
+    }
+  ],
+  "scope": "Existing NOVA route; no server or model setting changes; incomplete action retry tested with fixtures, not a quality benchmark"
+}

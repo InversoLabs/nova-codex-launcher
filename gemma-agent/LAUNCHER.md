@@ -18,6 +18,15 @@ from the current user's Conductor credential store when available, passed throug
 process environments, and never included in source, model artifacts, or logs.
 Session logs are private local files under `%LOCALAPPDATA%/NOVA-Gemma/sessions`.
 
+The adapter streams the model's separate reasoning field into Codex's reasoning
+display, without changing the server's thinking setting. It never executes partial
+JSON. Responses have a 2048-token allowance (the existing bridge maximum); an
+incomplete action is retried once with instructions to make a smaller change.
+Keep source files small: thinking and the action share that response allowance.
+Bundled skills are disabled only in this profile's isolated Codex home. Auxiliary
+tool-free chat-title requests are answered locally rather than queued on NOVA.
+Restart the Gemma Codex session after an adapter update to load the new code.
+
 The `gemma-agent` source includes the evaluator, teacher dataset collector,
 training recipes, and export code. `evidence` contains generated test fixtures,
 verified seed data and pilot measurements, not private repository transcripts.

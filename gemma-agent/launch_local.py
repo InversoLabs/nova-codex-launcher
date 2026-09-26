@@ -37,7 +37,7 @@ def main():
             env=proxy_env,creationflags=subprocess.CREATE_NO_WINDOW)
         port=int(proxy.stdout.readline().strip())
         home=out/'codex-home'; home.mkdir()
-        (home/'config.toml').write_text('[windows]\nsandbox = "unelevated"\n')
+        (home/'config.toml').write_text('[windows]\nsandbox = "unelevated"\n[skills.bundled]\nenabled = false\n')
         env['CODEX_HOME']=str(home)
         catalog=json.loads((ROOT.parent/'nova-codex-models.json').read_text(encoding='utf-8-sig'))
         model=catalog['models'][0]
@@ -51,6 +51,7 @@ def main():
             'model_providers.gemma_remote.request_max_retries':0,'model_providers.gemma_remote.stream_max_retries':0,
             'model_catalog_json':str(catalog_file),'model_context_window':args.context,
             'model_auto_compact_token_limit':args.context-1024,'model_reasoning_effort':'minimal',
+            'model_reasoning_summary':'detailed','hide_agent_reasoning':False,
             'tool_output_token_limit':1000,'features.plugins':False,'features.apps':False,
             'features.multi_agent':False,'features.remote_plugin':False,'features.skill_search':False,
             'features.code_mode.enabled':False,'web_search':'disabled'}

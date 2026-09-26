@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "project": "work-session",
+  "passed": false,
+  "checks": [
+    "behavior case 3",
+    "invalid input clears stale results",
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: breakMinutes\n\n'20' !== '15'\n",
+    "case 2: breakMinutes\n\n'10' !== '0'\n",
+    "state: Expected values to be strictly equal:\n+ actual - expected\n\n+ '100 · 20 · 120'\n- '100 · 15 · 115'\n         ^\n"
+  ]
+}

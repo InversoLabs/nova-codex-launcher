@@ -1,0 +1,8 @@
+function num(value,min){if(String(value).trim()==='') throw Error('Enter all numeric fields'); const n=Number(value); if(!Number.isFinite(n)||n<min) throw Error('Enter a number of at least '+min); return n;}
+function round(n){return Math.round((n+Number.EPSILON)*100)/100;}
+function lines(s){return s.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);}
+function time(s){if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(s)) throw Error('Use HH:MM in 24-hour time'); const [h,m]=s.split(':').map(Number); return h*60+m;}
+
+function run(d){
+const a=d.answers.split(',').map(x=>x.trim().toLowerCase()), k=d.key.split(',').map(x=>x.trim().toLowerCase()); if(!d.key.trim()||a.length!==k.length||k.some(x=>!x)) throw Error('Provide equal nonempty answer lists'); const correct=k.filter((x,i)=>x===a[i]).length; return {correct,total:k.length,percent:round(Math.floor(correct/k.length)*100)};
+}

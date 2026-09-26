@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "project": "trip-budget",
+  "passed": false,
+  "checks": [
+    "invalid input clears stale results",
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: total\n\n'440' !== '470'\n",
+    "case 2: total\n\n'5' !== '25'\n",
+    "case 3: total\n\n'50' !== '60'\n",
+    "state: Expected values to be strictly equal:\n+ actual - expected\n\n+ '4 · 270 · 440'\n- '4 · 270 · 470'\n              ^\n"
+  ]
+}

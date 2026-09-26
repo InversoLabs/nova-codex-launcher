@@ -1,0 +1,11 @@
+suite-v1/
+verification-v1/
+verification-v2/
+verification-v3/*.png
+teacher-*/
+admitted-*/
+*.log
+__pycache__/
+authored-demonstrations-v1/
+authored-demonstrations-v2/*/workspace/
+authored-demonstrations-v2/*/*.png

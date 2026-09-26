@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "project": "duplicate-cleaner",
+  "passed": false,
+  "checks": [
+    "behavior case 2",
+    "behavior case 3",
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: unique\n\n'3' !== '2'\n",
+    "state: Expected values to be strictly equal:\n+ actual - expected\n\n+ '3 · 0 · Alpha, beta, ALPHA'\n- '2 · 1 · Alpha, beta'\n"
+  ]
+}

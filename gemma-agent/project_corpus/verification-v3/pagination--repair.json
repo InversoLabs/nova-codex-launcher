@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "project": "pagination",
+  "passed": false,
+  "checks": [
+    "behavior case 2",
+    "behavior case 3",
+    "invalid input clears stale results",
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: pages\n\n'4' !== '5'\n",
+    "state: Expected values to be strictly equal:\n+ actual - expected\n\n+ '4 · 4 · 31 · 40'\n- '5 · 5 · 41 · 42'\n"
+  ]
+}

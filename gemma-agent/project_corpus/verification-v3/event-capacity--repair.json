@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "project": "event-capacity",
+  "passed": false,
+  "checks": [
+    "behavior case 2",
+    "behavior case 3",
+    "invalid input clears stale results",
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: admitted\n\n'No' !== 'Yes'\n",
+    "state: Expected values to be strictly equal:\n+ actual - expected\n\n+ '3 · No'\n- '3 · Yes'\n       ^\n"
+  ]
+}

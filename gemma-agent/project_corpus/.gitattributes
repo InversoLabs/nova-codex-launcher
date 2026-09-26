@@ -1,0 +1,3 @@
+# These fixtures carry byte hashes; preserve their exact bytes on every platform.
+suite-v2/** -text
+authored-demonstrations-v2/** -text

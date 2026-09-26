@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "project": "round-robin",
+  "passed": false,
+  "checks": [
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: matches\n\n'6' !== '3'\n",
+    "case 2: matches\n\n'1' !== '0'\n",
+    "case 3: matches\n\n'3' !== '1'\n",
+    "state: Expected values to be strictly equal:\n+ actual - expected\n\n+ '3 · 6 · A vs A; A vs B; A vs C; B vs B; B vs C; C vs C'\n- '3 · 3 · A vs B; A vs C; B vs C'\n"
+  ]
+}

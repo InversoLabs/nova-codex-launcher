@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "project": "text-insights",
+  "passed": false,
+  "checks": [
+    "behavior case 1",
+    "behavior case 2",
+    "reset restores defaults",
+    "persistence and clear",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 3: characters\n\n'5' !== '4'\n"
+  ]
+}

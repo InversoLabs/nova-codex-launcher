@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "project": "storage-estimate",
+  "passed": false,
+  "checks": [
+    "invalid input clears stale results",
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: Unexpected form error\n+ actual - expected\n\n+ 'Calculation is not implemented'\n- ''\n",
+    "case 2: Unexpected form error\n+ actual - expected\n\n+ 'Calculation is not implemented'\n- ''\n",
+    "case 3: Unexpected form error\n+ actual - expected\n\n+ 'Calculation is not implemented'\n- ''\n",
+    "state: locator.innerText: Timeout 4000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#history li')\u001b[22m\n"
+  ]
+}

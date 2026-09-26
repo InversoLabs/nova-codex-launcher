@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "project": "priority-board",
+  "passed": false,
+  "checks": [
+    "behavior case 2",
+    "behavior case 3",
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: next\n\n'A' !== 'B'\n",
+    "state: Expected values to be strictly equal:\n+ actual - expected\n\n+ '3 · A · A → C → B'\n- '3 · B · B → C → A'\n       ^\n"
+  ]
+}

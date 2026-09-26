@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "project": "subscription-budget",
+  "passed": false,
+  "checks": [
+    "behavior case 3",
+    "invalid input clears stale results",
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: monthlyEquivalent\n\n'140' !== '30'\n",
+    "case 2: monthlyEquivalent\n\n'60' !== '5'\n",
+    "state: Expected values to be strictly equal:\n+ actual - expected\n\n+ '140 · 360'\n- '30 · 360'\n"
+  ]
+}

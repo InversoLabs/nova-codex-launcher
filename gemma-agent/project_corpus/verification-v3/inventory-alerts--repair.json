@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "project": "inventory-alerts",
+  "passed": false,
+  "checks": [
+    "behavior case 3",
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: reorderCount\n\n'0' !== '1'\n",
+    "case 2: reorderCount\n\n'1' !== '2'\n",
+    "state: Expected values to be strictly equal:\n+ actual - expected\n\n+ '0 · None'\n- '1 · Paper'\n"
+  ]
+}

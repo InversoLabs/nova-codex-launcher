@@ -1,0 +1,510 @@
+{
+  "projects": [
+    {
+      "project": "reading-planner",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\reading-planner--reference.json"
+    },
+    {
+      "project": "reading-planner",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\reading-planner--implement.json"
+    },
+    {
+      "project": "reading-planner",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\reading-planner--repair.json"
+    },
+    {
+      "project": "event-capacity",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\event-capacity--reference.json"
+    },
+    {
+      "project": "event-capacity",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\event-capacity--implement.json"
+    },
+    {
+      "project": "event-capacity",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\event-capacity--repair.json"
+    },
+    {
+      "project": "recipe-scaler",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\recipe-scaler--reference.json"
+    },
+    {
+      "project": "recipe-scaler",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\recipe-scaler--implement.json"
+    },
+    {
+      "project": "recipe-scaler",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\recipe-scaler--repair.json"
+    },
+    {
+      "project": "inventory-alerts",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\inventory-alerts--reference.json"
+    },
+    {
+      "project": "inventory-alerts",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\inventory-alerts--implement.json"
+    },
+    {
+      "project": "inventory-alerts",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\inventory-alerts--repair.json"
+    },
+    {
+      "project": "ticket-pricing",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\ticket-pricing--reference.json"
+    },
+    {
+      "project": "ticket-pricing",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\ticket-pricing--implement.json"
+    },
+    {
+      "project": "ticket-pricing",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\ticket-pricing--repair.json"
+    },
+    {
+      "project": "meeting-overlap",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\meeting-overlap--reference.json"
+    },
+    {
+      "project": "meeting-overlap",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\meeting-overlap--implement.json"
+    },
+    {
+      "project": "meeting-overlap",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\meeting-overlap--repair.json"
+    },
+    {
+      "project": "catalog-search",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\catalog-search--reference.json"
+    },
+    {
+      "project": "catalog-search",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\catalog-search--implement.json"
+    },
+    {
+      "project": "catalog-search",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\catalog-search--repair.json"
+    },
+    {
+      "project": "text-insights",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\text-insights--reference.json"
+    },
+    {
+      "project": "text-insights",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\text-insights--implement.json"
+    },
+    {
+      "project": "text-insights",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\text-insights--repair.json"
+    },
+    {
+      "project": "trip-budget",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\trip-budget--reference.json"
+    },
+    {
+      "project": "trip-budget",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\trip-budget--implement.json"
+    },
+    {
+      "project": "trip-budget",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\trip-budget--repair.json"
+    },
+    {
+      "project": "color-contrast",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\color-contrast--reference.json"
+    },
+    {
+      "project": "color-contrast",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\color-contrast--implement.json"
+    },
+    {
+      "project": "color-contrast",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\color-contrast--repair.json"
+    },
+    {
+      "project": "priority-board",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\priority-board--reference.json"
+    },
+    {
+      "project": "priority-board",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\priority-board--implement.json"
+    },
+    {
+      "project": "priority-board",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\priority-board--repair.json"
+    },
+    {
+      "project": "shipping-quote",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\shipping-quote--reference.json"
+    },
+    {
+      "project": "shipping-quote",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\shipping-quote--implement.json"
+    },
+    {
+      "project": "shipping-quote",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\shipping-quote--repair.json"
+    },
+    {
+      "project": "quiz-score",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\quiz-score--reference.json"
+    },
+    {
+      "project": "quiz-score",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\quiz-score--implement.json"
+    },
+    {
+      "project": "quiz-score",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\quiz-score--repair.json"
+    },
+    {
+      "project": "work-session",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\work-session--reference.json"
+    },
+    {
+      "project": "work-session",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\work-session--implement.json"
+    },
+    {
+      "project": "work-session",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\work-session--repair.json"
+    },
+    {
+      "project": "duplicate-cleaner",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\duplicate-cleaner--reference.json"
+    },
+    {
+      "project": "duplicate-cleaner",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\duplicate-cleaner--implement.json"
+    },
+    {
+      "project": "duplicate-cleaner",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\duplicate-cleaner--repair.json"
+    },
+    {
+      "project": "subscription-budget",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\subscription-budget--reference.json"
+    },
+    {
+      "project": "subscription-budget",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\subscription-budget--implement.json"
+    },
+    {
+      "project": "subscription-budget",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\subscription-budget--repair.json"
+    },
+    {
+      "project": "unit-converter",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\unit-converter--reference.json"
+    },
+    {
+      "project": "unit-converter",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\unit-converter--implement.json"
+    },
+    {
+      "project": "unit-converter",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\unit-converter--repair.json"
+    },
+    {
+      "project": "pagination",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\pagination--reference.json"
+    },
+    {
+      "project": "pagination",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\pagination--implement.json"
+    },
+    {
+      "project": "pagination",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\pagination--repair.json"
+    },
+    {
+      "project": "storage-estimate",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\storage-estimate--reference.json"
+    },
+    {
+      "project": "storage-estimate",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\storage-estimate--implement.json"
+    },
+    {
+      "project": "storage-estimate",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\storage-estimate--repair.json"
+    },
+    {
+      "project": "rsvp-summary",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\rsvp-summary--reference.json"
+    },
+    {
+      "project": "rsvp-summary",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\rsvp-summary--implement.json"
+    },
+    {
+      "project": "rsvp-summary",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\rsvp-summary--repair.json"
+    },
+    {
+      "project": "date-countdown",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\date-countdown--reference.json"
+    },
+    {
+      "project": "date-countdown",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\date-countdown--implement.json"
+    },
+    {
+      "project": "date-countdown",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\date-countdown--repair.json"
+    },
+    {
+      "project": "grade-planner",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\grade-planner--reference.json"
+    },
+    {
+      "project": "grade-planner",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\grade-planner--implement.json"
+    },
+    {
+      "project": "grade-planner",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\grade-planner--repair.json"
+    },
+    {
+      "project": "password-meter",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\password-meter--reference.json"
+    },
+    {
+      "project": "password-meter",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\password-meter--implement.json"
+    },
+    {
+      "project": "password-meter",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\password-meter--repair.json"
+    },
+    {
+      "project": "round-robin",
+      "variant": "reference",
+      "expected_pass": true,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\round-robin--reference.json"
+    },
+    {
+      "project": "round-robin",
+      "variant": "implement",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\round-robin--implement.json"
+    },
+    {
+      "project": "round-robin",
+      "variant": "repair",
+      "expected_pass": false,
+      "valid": true,
+      "report": "C:\\Users\\jc\\Documents\\NOVA-GitHub\\nova-codex-launcher\\gemma-agent\\project_corpus\\verification-v3\\round-robin--repair.json"
+    }
+  ],
+  "passed": true,
+  "started": 1790439469.3347073
+}

@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "project": "grade-planner",
+  "passed": false,
+  "checks": [
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: average\n\n'1.7' !== '86'\n",
+    "case 2: average\n\n'1' !== '50'\n",
+    "case 3: average\n\n'1' !== '100'\n",
+    "state: Expected values to be strictly equal:\n\n'1.7' !== '86'\n"
+  ]
+}

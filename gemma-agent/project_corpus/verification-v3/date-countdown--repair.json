@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "project": "date-countdown",
+  "passed": false,
+  "checks": [
+    "behavior case 2",
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: days\n\n'48' !== '2'\n",
+    "case 3: days\n\n'-48' !== '-2'\n",
+    "state: Expected values to be strictly equal:\n+ actual - expected\n\n+ '48 · Future'\n- '2 · Future'\n"
+  ]
+}

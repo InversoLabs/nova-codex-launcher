@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "project": "reading-planner",
+  "passed": false,
+  "checks": [
+    "behavior case 3",
+    "invalid input clears stale results",
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: dailyPages\n\n'25' !== '26'\n",
+    "case 2: dailyPages\n\n'0' !== '1'\n",
+    "state: Expected values to be strictly equal:\n+ actual - expected\n\n+ '25 · 180'\n- '26 · 180'\n"
+  ]
+}

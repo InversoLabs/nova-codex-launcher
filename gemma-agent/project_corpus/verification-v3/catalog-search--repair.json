@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "project": "catalog-search",
+  "passed": false,
+  "checks": [
+    "behavior case 2",
+    "behavior case 3",
+    "invalid input clears stale results",
+    "reset restores defaults",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 1: matches\n\n'0' !== '1'\n",
+    "state: Expected values to be strictly equal:\n+ actual - expected\n\n+ '0 · None'\n- '1 · Canvas Bag'\n"
+  ]
+}

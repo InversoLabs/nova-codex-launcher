@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "project": "ticket-pricing",
+  "passed": false,
+  "checks": [
+    "behavior case 1",
+    "invalid input clears stale results",
+    "reset restores defaults",
+    "persistence and clear",
+    "labels, keyboard focus, mobile overflow"
+  ],
+  "errors": [
+    "case 2: total\n\n'200' !== '170'\n",
+    "case 3: total\n\n'120' !== '102'\n"
+  ]
+}

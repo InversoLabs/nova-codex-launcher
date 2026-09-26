@@ -1,0 +1,2253 @@
+{
+  "schema": 1,
+  "provenance": "Original assistant-authored reference projects, not generated teacher runs",
+  "projects": [
+    {
+      "id": "reading-planner",
+      "title": "Reading Room",
+      "description": "Plan a reading schedule around your available days.",
+      "fields": [
+        [
+          "pages",
+          "Pages remaining",
+          "number",
+          "180"
+        ],
+        [
+          "days",
+          "Days available",
+          "number",
+          "7"
+        ]
+      ],
+      "body": "const pages=num(d.pages,0), days=num(d.days,1); return {dailyPages:Math.ceil(pages/days),totalPages:pages};",
+      "cases": [
+        [
+          {
+            "pages": "180",
+            "days": "7"
+          },
+          {
+            "dailyPages": 26,
+            "totalPages": 180
+          }
+        ],
+        [
+          {
+            "pages": "1",
+            "days": "8"
+          },
+          {
+            "dailyPages": 1,
+            "totalPages": 1
+          }
+        ],
+        [
+          {
+            "pages": "0",
+            "days": "1"
+          },
+          {
+            "dailyPages": 0,
+            "totalPages": 0
+          }
+        ]
+      ],
+      "mutation": [
+        "Math.ceil(pages/days)",
+        "Math.floor(pages/days)"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "c4d3999beaa1576cd7f32897241e97ef9c2a2be877f1a8939ead9d05d7d9dae5",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "e3e66f4465ef5b9a0ad0fb0e1c9272cc46289d0f68339d82fb38bc21c6023856",
+        "README.md": "7d40c57ac10e96b097cebf2103635b69f5f0c64a1f51993d22bf347439275438"
+      },
+      "tasks": [
+        {
+          "id": "reading-planner--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Reading Room. Plan a reading schedule around your available days.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "c4d3999beaa1576cd7f32897241e97ef9c2a2be877f1a8939ead9d05d7d9dae5",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "7d40c57ac10e96b097cebf2103635b69f5f0c64a1f51993d22bf347439275438",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "aa6f1cc9b082290e4843926b0f81a66daafa8e23827c30a91abc46f3f1435e1e"
+          }
+        },
+        {
+          "id": "reading-planner--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Reading Room. Plan a reading schedule around your available days.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "c4d3999beaa1576cd7f32897241e97ef9c2a2be877f1a8939ead9d05d7d9dae5",
+            "logic.js": "9938fd9f084f4fadeca58a58b1a0e4763e5ffdb7e9769a4c039880a50e7c2398",
+            "README.md": "7d40c57ac10e96b097cebf2103635b69f5f0c64a1f51993d22bf347439275438",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "aa0f386229e2a34a63962e679e11763788024327f0118421df84847ac38bc9a4"
+          }
+        }
+      ]
+    },
+    {
+      "id": "event-capacity",
+      "title": "Open Doors",
+      "description": "Check remaining seats and group admission for an event.",
+      "fields": [
+        [
+          "capacity",
+          "Venue capacity",
+          "number",
+          "120"
+        ],
+        [
+          "booked",
+          "Seats booked",
+          "number",
+          "97"
+        ],
+        [
+          "group",
+          "Group size",
+          "number",
+          "4"
+        ]
+      ],
+      "body": "const cap=num(d.capacity,0), booked=num(d.booked,0), group=num(d.group,1); if(booked>cap) throw Error('Booked seats exceed capacity'); return {remaining:cap-booked,admitted:group<=cap-booked?'Yes':'No'};",
+      "cases": [
+        [
+          {
+            "capacity": "10",
+            "booked": "7",
+            "group": "3"
+          },
+          {
+            "remaining": 3,
+            "admitted": "Yes"
+          }
+        ],
+        [
+          {
+            "capacity": "10",
+            "booked": "10",
+            "group": "1"
+          },
+          {
+            "remaining": 0,
+            "admitted": "No"
+          }
+        ],
+        [
+          {
+            "capacity": "30",
+            "booked": "4",
+            "group": "5"
+          },
+          {
+            "remaining": 26,
+            "admitted": "Yes"
+          }
+        ]
+      ],
+      "mutation": [
+        "group<=cap-booked",
+        "group<cap-booked"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "f94578ed4e7d969bfb030d4c2c4c6c261bd05236f8d2a1ea4179db98b2a8a535",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "cf2600a0acb1f3f45802f259dfd730bf7c9741f5be169fcfb315d6ab43ec5ff7",
+        "README.md": "b55f3c315896331cbb04701ebdabb2a452ee9d31e8d3492302d4a71646a02b5f"
+      },
+      "tasks": [
+        {
+          "id": "event-capacity--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Open Doors. Check remaining seats and group admission for an event.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "f94578ed4e7d969bfb030d4c2c4c6c261bd05236f8d2a1ea4179db98b2a8a535",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "b55f3c315896331cbb04701ebdabb2a452ee9d31e8d3492302d4a71646a02b5f",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "e573d446048a512b3b1d359a634a3d4d3a1be9f52a24e53e46840e21c4b7550c"
+          }
+        },
+        {
+          "id": "event-capacity--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Open Doors. Check remaining seats and group admission for an event.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "f94578ed4e7d969bfb030d4c2c4c6c261bd05236f8d2a1ea4179db98b2a8a535",
+            "logic.js": "eff4e8b38d09e4edded5eae56d8b2cabb5003d5860e46bd4d63aa52e23dffc17",
+            "README.md": "b55f3c315896331cbb04701ebdabb2a452ee9d31e8d3492302d4a71646a02b5f",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "a659f6890ee4e89f9f717b5142faeedbf037e09c0e8d492a63df78ca1811aeea"
+          }
+        }
+      ]
+    },
+    {
+      "id": "recipe-scaler",
+      "title": "Kitchen Scale",
+      "description": "Scale recipe quantities without losing fractional portions.",
+      "fields": [
+        [
+          "amount",
+          "Original quantity",
+          "number",
+          "250"
+        ],
+        [
+          "servings",
+          "Original servings",
+          "number",
+          "4"
+        ],
+        [
+          "target",
+          "Target servings",
+          "number",
+          "6"
+        ]
+      ],
+      "body": "const amount=num(d.amount,0), servings=num(d.servings,0.01), target=num(d.target,0.01); return {quantity:round(amount*target/servings),factor:round(target/servings)};",
+      "cases": [
+        [
+          {
+            "amount": "250",
+            "servings": "4",
+            "target": "6"
+          },
+          {
+            "quantity": 375,
+            "factor": 1.5
+          }
+        ],
+        [
+          {
+            "amount": "3",
+            "servings": "2",
+            "target": "1"
+          },
+          {
+            "quantity": 1.5,
+            "factor": 0.5
+          }
+        ],
+        [
+          {
+            "amount": "0",
+            "servings": "1",
+            "target": "5"
+          },
+          {
+            "quantity": 0,
+            "factor": 5
+          }
+        ]
+      ],
+      "mutation": [
+        "amount*target/servings",
+        "amount*servings/target"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "b4224415e6ceb706b1a9d260e60f5a308128b0338fb8da6b0232347472912682",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "705ea30348fd7c436bdf7370c4e70f3d56e076e12daf84d791d846c1edd17148",
+        "README.md": "64bceccc81396c7ada2b3f4b2e739b102b72f0da55e0b6b845ad57c2b941846c"
+      },
+      "tasks": [
+        {
+          "id": "recipe-scaler--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Kitchen Scale. Scale recipe quantities without losing fractional portions.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "b4224415e6ceb706b1a9d260e60f5a308128b0338fb8da6b0232347472912682",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "64bceccc81396c7ada2b3f4b2e739b102b72f0da55e0b6b845ad57c2b941846c",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "2721000a67d5f15e225a02bd3e11d1d661a718266f9f9a790ee34f0391f45d18"
+          }
+        },
+        {
+          "id": "recipe-scaler--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Kitchen Scale. Scale recipe quantities without losing fractional portions.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "b4224415e6ceb706b1a9d260e60f5a308128b0338fb8da6b0232347472912682",
+            "logic.js": "a87e7a3d9953973c85d8c65f2b8f4321d8c62d2dedea28504e5555f79a811190",
+            "README.md": "64bceccc81396c7ada2b3f4b2e739b102b72f0da55e0b6b845ad57c2b941846c",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "e61cb366fda716d56d1d46e81681a18134fb6e344f72d6b064de5885d2baf92c"
+          }
+        }
+      ]
+    },
+    {
+      "id": "inventory-alerts",
+      "title": "Stock Watch",
+      "description": "Find items at or below their reorder threshold. One name,stock,threshold per line.",
+      "fields": [
+        [
+          "items",
+          "Inventory rows",
+          "textarea",
+          "Paper,4,5\nInk,8,3"
+        ]
+      ],
+      "body": "const rows=lines(d.items).map(x=>{const [name,stock,limit]=x.split(',').map(v=>v.trim()); if(!name) throw Error('Name required'); return {name,stock:num(stock,0),limit:num(limit,0)};}); const low=rows.filter(x=>x.stock<=x.limit); return {reorderCount:low.length,items:low.map(x=>x.name).join(', ')||'None'};",
+      "cases": [
+        [
+          {
+            "items": "Paper,5,5\nInk,8,3"
+          },
+          {
+            "reorderCount": 1,
+            "items": "Paper"
+          }
+        ],
+        [
+          {
+            "items": "A,0,0\nB,1,2"
+          },
+          {
+            "reorderCount": 2,
+            "items": "A, B"
+          }
+        ],
+        [
+          {
+            "items": "A,9,2"
+          },
+          {
+            "reorderCount": 0,
+            "items": "None"
+          }
+        ]
+      ],
+      "mutation": [
+        "x.stock<=x.limit",
+        "x.stock<x.limit"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "849de9afe3eb48683caed9ff476cf2c78aee2e53c454337d39a3bdc94341fbcf",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "d3d7b13c91ba8e0699a48c5c8571689a4d7d23c27100a8521636e40fb71ef8de",
+        "README.md": "b21993cd27820834e292a6b7c97ab2b3c647d2c8fca3f21cc0bf5b6892077d74"
+      },
+      "tasks": [
+        {
+          "id": "inventory-alerts--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Stock Watch. Find items at or below their reorder threshold. One name,stock,threshold per line.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "849de9afe3eb48683caed9ff476cf2c78aee2e53c454337d39a3bdc94341fbcf",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "b21993cd27820834e292a6b7c97ab2b3c647d2c8fca3f21cc0bf5b6892077d74",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "759349463165c19ec4bedfcc7483dc2a05483eedf3b9d97cf67ef929e2aaaf85"
+          }
+        },
+        {
+          "id": "inventory-alerts--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Stock Watch. Find items at or below their reorder threshold. One name,stock,threshold per line.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "849de9afe3eb48683caed9ff476cf2c78aee2e53c454337d39a3bdc94341fbcf",
+            "logic.js": "0525192881bf526b1c7690a190c79b531749d7bdcf3a69401bcdbe6e73cfb9af",
+            "README.md": "b21993cd27820834e292a6b7c97ab2b3c647d2c8fca3f21cc0bf5b6892077d74",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "926189b7f7ac2d37d33eb95f693a10f007edd47d8cbec77f6f78ee929725491d"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ticket-pricing",
+      "title": "Box Office",
+      "description": "Quote group tickets with a discount for groups of ten or more.",
+      "fields": [
+        [
+          "adults",
+          "Adult tickets",
+          "number",
+          "2"
+        ],
+        [
+          "children",
+          "Child tickets",
+          "number",
+          "1"
+        ]
+      ],
+      "body": "const adults=num(d.adults,0), children=num(d.children,0); const count=adults+children, base=adults*20+children*12; const discount=count>=10?0.15:0; return {tickets:count,total:round(base*(1-discount)),discountPercent:discount*100};",
+      "cases": [
+        [
+          {
+            "adults": "2",
+            "children": "1"
+          },
+          {
+            "tickets": 3,
+            "total": 52,
+            "discountPercent": 0
+          }
+        ],
+        [
+          {
+            "adults": "10",
+            "children": "0"
+          },
+          {
+            "tickets": 10,
+            "total": 170,
+            "discountPercent": 15
+          }
+        ],
+        [
+          {
+            "adults": "0",
+            "children": "10"
+          },
+          {
+            "tickets": 10,
+            "total": 102,
+            "discountPercent": 15
+          }
+        ]
+      ],
+      "mutation": [
+        "count>=10",
+        "count>10"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "efde4f630a3005c7ef1afad43277edaae4aaeab6995b14a389690971c32dcc4b",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "1cd834603b666f2493a713e2d5195eac2e15744ac3ed556418d4c91cd70e71d7",
+        "README.md": "f308ec039a61bac032ecd56b05b7a3dfa235893bcd4b415b6b353e999fb05757"
+      },
+      "tasks": [
+        {
+          "id": "ticket-pricing--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Box Office. Quote group tickets with a discount for groups of ten or more.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "efde4f630a3005c7ef1afad43277edaae4aaeab6995b14a389690971c32dcc4b",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "f308ec039a61bac032ecd56b05b7a3dfa235893bcd4b415b6b353e999fb05757",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "c35e824437b35c836a3933a82e8d9a12fb63e9226e63a36127635de8dba17f17"
+          }
+        },
+        {
+          "id": "ticket-pricing--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Box Office. Quote group tickets with a discount for groups of ten or more.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "efde4f630a3005c7ef1afad43277edaae4aaeab6995b14a389690971c32dcc4b",
+            "logic.js": "88d57fce917d71db4a7f45b17cdb29e25b22aa5a421195038fc38f20e0a5a0d7",
+            "README.md": "f308ec039a61bac032ecd56b05b7a3dfa235893bcd4b415b6b353e999fb05757",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "c5fcf0aa9e64382494a74dffd5cd768f6424f7a92df728a64abb5d51099e300c"
+          }
+        }
+      ]
+    },
+    {
+      "id": "meeting-overlap",
+      "title": "Meet Window",
+      "description": "Find the overlap of two same-day availability windows in 24-hour time.",
+      "fields": [
+        [
+          "startA",
+          "First start",
+          "text",
+          "09:00"
+        ],
+        [
+          "endA",
+          "First end",
+          "text",
+          "12:00"
+        ],
+        [
+          "startB",
+          "Second start",
+          "text",
+          "11:00"
+        ],
+        [
+          "endB",
+          "Second end",
+          "text",
+          "14:00"
+        ]
+      ],
+      "body": "const a=time(d.startA),b=time(d.endA),c=time(d.startB),e=time(d.endB); if(b<a||e<c) throw Error('End precedes start'); const n=Math.max(0,Math.min(b,e)-Math.max(a,c)); return {overlapMinutes:n,available:n>0?'Yes':'No'};",
+      "cases": [
+        [
+          {
+            "startA": "09:00",
+            "endA": "12:00",
+            "startB": "11:00",
+            "endB": "14:00"
+          },
+          {
+            "overlapMinutes": 60,
+            "available": "Yes"
+          }
+        ],
+        [
+          {
+            "startA": "09:00",
+            "endA": "10:00",
+            "startB": "10:00",
+            "endB": "11:00"
+          },
+          {
+            "overlapMinutes": 0,
+            "available": "No"
+          }
+        ],
+        [
+          {
+            "startA": "09:00",
+            "endA": "10:00",
+            "startB": "12:00",
+            "endB": "13:00"
+          },
+          {
+            "overlapMinutes": 0,
+            "available": "No"
+          }
+        ]
+      ],
+      "mutation": [
+        "Math.max(0,Math.min(b,e)-Math.max(a,c))",
+        "Math.abs(Math.min(b,e)-Math.max(a,c))"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "4c448b2a6e5cafd27d535038ed44a2c1142fb35848865b302b2a6a2a551f05e8",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "d280bfcbf940661fb4c8ee226c89d8513e25b6a2c065fa52307db2d04229b8e9",
+        "README.md": "1eeee7cd404f115e046a2c0263e38fa4c31774f62924557dfaac007d87207c46"
+      },
+      "tasks": [
+        {
+          "id": "meeting-overlap--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Meet Window. Find the overlap of two same-day availability windows in 24-hour time.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "4c448b2a6e5cafd27d535038ed44a2c1142fb35848865b302b2a6a2a551f05e8",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "1eeee7cd404f115e046a2c0263e38fa4c31774f62924557dfaac007d87207c46",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "5fc8f4dc9b2f80159e8de6ba567494365ee360cd86bc31b2705b30887965c09b"
+          }
+        },
+        {
+          "id": "meeting-overlap--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Meet Window. Find the overlap of two same-day availability windows in 24-hour time.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "4c448b2a6e5cafd27d535038ed44a2c1142fb35848865b302b2a6a2a551f05e8",
+            "logic.js": "c4ec7a5027313d9de12db256d1b41de303c37b2f142efc4af96ba09a8afd5dab",
+            "README.md": "1eeee7cd404f115e046a2c0263e38fa4c31774f62924557dfaac007d87207c46",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "ca3c3ddc1efe9a5bb4550dd076283978e037249abf4525d0ed039e8002fbfb81"
+          }
+        }
+      ]
+    },
+    {
+      "id": "catalog-search",
+      "title": "Small Shop",
+      "description": "Filter a small product catalog by text and maximum price.",
+      "fields": [
+        [
+          "query",
+          "Search products",
+          "text",
+          ""
+        ],
+        [
+          "budget",
+          "Maximum price",
+          "number",
+          "100"
+        ]
+      ],
+      "body": "const budget=num(d.budget,0), q=d.query.trim().toLowerCase(); const products=[{name:'Canvas Bag',price:25},{name:'Desk Lamp',price:60},{name:'Notebook',price:12},{name:'Travel Mug',price:25}]; const found=products.filter(p=>p.price<=budget&&p.name.toLowerCase().includes(q)).sort((a,b)=>a.price-b.price||a.name.localeCompare(b.name)); return {matches:found.length,products:found.map(p=>p.name).join(', ')||'None'};",
+      "cases": [
+        [
+          {
+            "query": " BAG ",
+            "budget": "25"
+          },
+          {
+            "matches": 1,
+            "products": "Canvas Bag"
+          }
+        ],
+        [
+          {
+            "query": "",
+            "budget": "25"
+          },
+          {
+            "matches": 3,
+            "products": "Notebook, Canvas Bag, Travel Mug"
+          }
+        ],
+        [
+          {
+            "query": "lamp",
+            "budget": "59"
+          },
+          {
+            "matches": 0,
+            "products": "None"
+          }
+        ]
+      ],
+      "mutation": [
+        "d.query.trim().toLowerCase()",
+        "d.query.toLowerCase()"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "7e691ddde9a74c147ca34471869dc161aa863d1422d4741238b05fa01e4f3c79",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "426ad93c6c481d98693647cd3c7962dd09a998fe393fc33c37074ec5e9c77371",
+        "README.md": "98e4ca96409a6824cf18d5bddda8cbd6502fd415770a6e15b1bbdecc7dc0c32a"
+      },
+      "tasks": [
+        {
+          "id": "catalog-search--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Small Shop. Filter a small product catalog by text and maximum price.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "7e691ddde9a74c147ca34471869dc161aa863d1422d4741238b05fa01e4f3c79",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "98e4ca96409a6824cf18d5bddda8cbd6502fd415770a6e15b1bbdecc7dc0c32a",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "540e390a3e3bcf393943bb313380a7e786f6bb064a28d6e24ba143071a4e3185"
+          }
+        },
+        {
+          "id": "catalog-search--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Small Shop. Filter a small product catalog by text and maximum price.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "7e691ddde9a74c147ca34471869dc161aa863d1422d4741238b05fa01e4f3c79",
+            "logic.js": "d87fcb2c3c1c29c7b17b7bd42b10065b610f0dbde89334ae2b8d9ce70eb4f007",
+            "README.md": "98e4ca96409a6824cf18d5bddda8cbd6502fd415770a6e15b1bbdecc7dc0c32a",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "4bb05ac2eb4d779ce421183ad8dfb0450d50e7a3b22bfbbaa68a4ce793231c93"
+          }
+        }
+      ]
+    },
+    {
+      "id": "text-insights",
+      "title": "Draft Lens",
+      "description": "Count words, characters, and reading minutes for a draft.",
+      "fields": [
+        [
+          "text",
+          "Your draft",
+          "textarea",
+          "A small idea can grow."
+        ]
+      ],
+      "body": "const text=d.text, words=text.trim()?text.trim().split(/\\s+/).length:0; return {words,characters:[...text].length,readingMinutes:Math.ceil(words/200)};",
+      "cases": [
+        [
+          {
+            "text": " hello   world\nagain "
+          },
+          {
+            "words": 3,
+            "characters": 21,
+            "readingMinutes": 1
+          }
+        ],
+        [
+          {
+            "text": ""
+          },
+          {
+            "words": 0,
+            "characters": 0,
+            "readingMinutes": 0
+          }
+        ],
+        [
+          {
+            "text": "Hi 🌙"
+          },
+          {
+            "words": 2,
+            "characters": 4,
+            "readingMinutes": 1
+          }
+        ]
+      ],
+      "mutation": [
+        "characters:[...text].length",
+        "characters:text.length"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "d0d37dcac0468ef27991414227e30609b46d5a6728825b216c79977c84a51613",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "ca5e2479e33924db4cd524870184732a6c9d7f66f4c0c461cc9ff84171cc9edb",
+        "README.md": "91221e9b796369a09f6411798515e985a0c53959d55596df9162b0da9ce6719c"
+      },
+      "tasks": [
+        {
+          "id": "text-insights--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Draft Lens. Count words, characters, and reading minutes for a draft.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "d0d37dcac0468ef27991414227e30609b46d5a6728825b216c79977c84a51613",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "91221e9b796369a09f6411798515e985a0c53959d55596df9162b0da9ce6719c",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "17dc8f6803b523bca74cb36930f8e605fb8ecf9e442cc7ba801a78960a0ea3bf"
+          }
+        },
+        {
+          "id": "text-insights--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Draft Lens. Count words, characters, and reading minutes for a draft.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "d0d37dcac0468ef27991414227e30609b46d5a6728825b216c79977c84a51613",
+            "logic.js": "e9b971b37355f3cc2518b29cc1c467783759de1658b8391402675c729db8e32f",
+            "README.md": "91221e9b796369a09f6411798515e985a0c53959d55596df9162b0da9ce6719c",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "6d5f33329d3687f3686fdcb25be4cc6e4884c43809604a3abb6be745915dd6ee"
+          }
+        }
+      ]
+    },
+    {
+      "id": "trip-budget",
+      "title": "Away Days",
+      "description": "Estimate a trip budget including lodging, meals, and transport.",
+      "fields": [
+        [
+          "nights",
+          "Nights",
+          "number",
+          "3"
+        ],
+        [
+          "nightly",
+          "Nightly room price",
+          "number",
+          "90"
+        ],
+        [
+          "daily",
+          "Meals per day",
+          "number",
+          "30"
+        ],
+        [
+          "transport",
+          "Transport total",
+          "number",
+          "80"
+        ]
+      ],
+      "body": "const nights=num(d.nights,0), nightly=num(d.nightly,0), daily=num(d.daily,0), transport=num(d.transport,0); return {days:nights+1,lodging:round(nights*nightly),total:round(nights*nightly+(nights+1)*daily+transport)};",
+      "cases": [
+        [
+          {
+            "nights": "3",
+            "nightly": "90",
+            "daily": "30",
+            "transport": "80"
+          },
+          {
+            "days": 4,
+            "lodging": 270,
+            "total": 470
+          }
+        ],
+        [
+          {
+            "nights": "0",
+            "nightly": "100",
+            "daily": "20",
+            "transport": "5"
+          },
+          {
+            "days": 1,
+            "lodging": 0,
+            "total": 25
+          }
+        ],
+        [
+          {
+            "nights": "1",
+            "nightly": "40",
+            "daily": "10",
+            "transport": "0"
+          },
+          {
+            "days": 2,
+            "lodging": 40,
+            "total": 60
+          }
+        ]
+      ],
+      "mutation": [
+        "(nights+1)*daily",
+        "nights*daily"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "12459f952aa08e76517b3560e0b3558fbdcb37eb436ede82d3f1d5fea1e70b30",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "00f1150b6796ebf01449470191074c98193003e5b60e8fba945fbd8d189c4c89",
+        "README.md": "ce9c220cc4a0a5cbc756a5010ae0936a933b51d7ce13e5a46f4b9a319049e7ff"
+      },
+      "tasks": [
+        {
+          "id": "trip-budget--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Away Days. Estimate a trip budget including lodging, meals, and transport.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "12459f952aa08e76517b3560e0b3558fbdcb37eb436ede82d3f1d5fea1e70b30",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "ce9c220cc4a0a5cbc756a5010ae0936a933b51d7ce13e5a46f4b9a319049e7ff",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "b8cb95687fc6c242c7412fd4d22c5cbb972478545da4e26c0691edf8bf84f5cf"
+          }
+        },
+        {
+          "id": "trip-budget--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Away Days. Estimate a trip budget including lodging, meals, and transport.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "12459f952aa08e76517b3560e0b3558fbdcb37eb436ede82d3f1d5fea1e70b30",
+            "logic.js": "148e403f5e9234950fca4c6fa624514c3d534fc8c67e924858b1bd172491d39f",
+            "README.md": "ce9c220cc4a0a5cbc756a5010ae0936a933b51d7ce13e5a46f4b9a319049e7ff",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "bbadb92a344818317cae3f129df40bb5988335aa434c1e19840ef7aaf240aedc"
+          }
+        }
+      ]
+    },
+    {
+      "id": "color-contrast",
+      "title": "Contrast Desk",
+      "description": "Calculate contrast between two six-digit hex colors.",
+      "fields": [
+        [
+          "foreground",
+          "Text color",
+          "text",
+          "#ffffff"
+        ],
+        [
+          "background",
+          "Background color",
+          "text",
+          "#000000"
+        ]
+      ],
+      "body": "function lum(s){if(!/^#[0-9a-f]{6}$/i.test(s)) throw Error('Use #RRGGBB colors'); const v=[1,3,5].map(i=>parseInt(s.slice(i,i+2),16)/255).map(x=>x<=0.04045?x/12.92:((x+0.055)/1.055)**2.4); return v[0]*0.2126+v[1]*0.7152+v[2]*0.0722;} const a=lum(d.foreground),b=lum(d.background),ratio=(Math.max(a,b)+0.05)/(Math.min(a,b)+0.05); return {ratio:round(ratio),normalText:ratio>=4.5?'Pass':'Fail',largeText:ratio>=3?'Pass':'Fail'};",
+      "cases": [
+        [
+          {
+            "foreground": "#ffffff",
+            "background": "#000000"
+          },
+          {
+            "ratio": 21,
+            "normalText": "Pass",
+            "largeText": "Pass"
+          }
+        ],
+        [
+          {
+            "foreground": "#ffffff",
+            "background": "#ffffff"
+          },
+          {
+            "ratio": 1,
+            "normalText": "Fail",
+            "largeText": "Fail"
+          }
+        ],
+        [
+          {
+            "foreground": "#000000",
+            "background": "#FFFFFF"
+          },
+          {
+            "ratio": 21,
+            "normalText": "Pass",
+            "largeText": "Pass"
+          }
+        ]
+      ],
+      "mutation": [
+        "Math.max(a,b)+0.05",
+        "a+0.05"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "9c6cfa80cc06d569bf49481e84c5bb30e4f3022e037da6777fdbbb0d74348e36",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "cb92925ad4169f44b6d5d61ba79bb854bcc7f8646bfad89a8a04d97379455e52",
+        "README.md": "f279408c40428a0a0f9b1a2a612e1da9123567f5e08ce0966144e5136d7bb378"
+      },
+      "tasks": [
+        {
+          "id": "color-contrast--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Contrast Desk. Calculate contrast between two six-digit hex colors.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "9c6cfa80cc06d569bf49481e84c5bb30e4f3022e037da6777fdbbb0d74348e36",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "f279408c40428a0a0f9b1a2a612e1da9123567f5e08ce0966144e5136d7bb378",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "eee6fe18fed40f2dfb9aa33a579e31290514d7a0b446543edcfb0605b1e2a779"
+          }
+        },
+        {
+          "id": "color-contrast--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Contrast Desk. Calculate contrast between two six-digit hex colors.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "9c6cfa80cc06d569bf49481e84c5bb30e4f3022e037da6777fdbbb0d74348e36",
+            "logic.js": "9fd3bf510a232f434628807a6ac0f5ffcddb6de7dd2a007e44419426243d414d",
+            "README.md": "f279408c40428a0a0f9b1a2a612e1da9123567f5e08ce0966144e5136d7bb378",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "ba5b15518839e169ff7e19b69e06edaba2ba7e246465247d15c8c8cf7217c58b"
+          }
+        }
+      ]
+    },
+    {
+      "id": "priority-board",
+      "title": "Next Up",
+      "description": "Sort tasks by priority and preserve order within each priority. One title,priority per line.",
+      "fields": [
+        [
+          "tasks",
+          "Tasks: low, medium, or high",
+          "textarea",
+          "Write draft,medium\nFix checkout,high\nChoose icon,low"
+        ]
+      ],
+      "body": "const rank={high:0,medium:1,low:2}; const tasks=lines(d.tasks).map((x,i)=>{const [title,p]=x.split(',').map(v=>v.trim()); if(!title||!(p in rank)) throw Error('Use title,priority'); return {title,p,i};}).sort((a,b)=>rank[a.p]-rank[b.p]||a.i-b.i); return {count:tasks.length,next:tasks[0]?.title||'None',order:tasks.map(x=>x.title).join(' → ')};",
+      "cases": [
+        [
+          {
+            "tasks": "A,low\nB,high\nC,medium"
+          },
+          {
+            "count": 3,
+            "next": "B",
+            "order": "B → C → A"
+          }
+        ],
+        [
+          {
+            "tasks": "Z,high\nA,high"
+          },
+          {
+            "count": 2,
+            "next": "Z",
+            "order": "Z → A"
+          }
+        ],
+        [
+          {
+            "tasks": "Solo,medium"
+          },
+          {
+            "count": 1,
+            "next": "Solo",
+            "order": "Solo"
+          }
+        ]
+      ],
+      "mutation": [
+        "rank[a.p]-rank[b.p]",
+        "rank[b.p]-rank[a.p]"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "e09e1e7bc0249e73fc4d9f44d737615634c8f5d11c5f6e1a159d8db067314a10",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "a086a768f2b24dd078fcf7528ddbc114cc343e842e2d6d5cd125ba0a5e37b85c",
+        "README.md": "1ae3dc260b79f6b7e286dd0954043bd23b600a06a59b7f860732e8adbbfdf0ab"
+      },
+      "tasks": [
+        {
+          "id": "priority-board--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Next Up. Sort tasks by priority and preserve order within each priority. One title,priority per line.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "e09e1e7bc0249e73fc4d9f44d737615634c8f5d11c5f6e1a159d8db067314a10",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "1ae3dc260b79f6b7e286dd0954043bd23b600a06a59b7f860732e8adbbfdf0ab",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "95eae88f27afd57e21a17e52c11ddb82cc4d1e9a91884cc088f2834469bb1d1d"
+          }
+        },
+        {
+          "id": "priority-board--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Next Up. Sort tasks by priority and preserve order within each priority. One title,priority per line.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "e09e1e7bc0249e73fc4d9f44d737615634c8f5d11c5f6e1a159d8db067314a10",
+            "logic.js": "08d26c2dc8661b0b2fc0949e0da396fe751da084e637ccba14778083447b7fa0",
+            "README.md": "1ae3dc260b79f6b7e286dd0954043bd23b600a06a59b7f860732e8adbbfdf0ab",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "1b56ec939abcea61dbc631a0511b52593da115d1c1896e1bc43e530264a111af"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shipping-quote",
+      "title": "Parcel Desk",
+      "description": "Quote parcel shipping with rounded-up weight tiers and a free-shipping threshold.",
+      "fields": [
+        [
+          "weight",
+          "Weight in kg",
+          "number",
+          "1.2"
+        ],
+        [
+          "subtotal",
+          "Order subtotal",
+          "number",
+          "40"
+        ]
+      ],
+      "body": "const weight=num(d.weight,0.01), subtotal=num(d.subtotal,0); const shipping=subtotal>=75?0:5+Math.max(0,Math.ceil(weight)-1)*2; return {shipping,orderTotal:round(subtotal+shipping)};",
+      "cases": [
+        [
+          {
+            "weight": "1.2",
+            "subtotal": "40"
+          },
+          {
+            "shipping": 7,
+            "orderTotal": 47
+          }
+        ],
+        [
+          {
+            "weight": "3",
+            "subtotal": "75"
+          },
+          {
+            "shipping": 0,
+            "orderTotal": 75
+          }
+        ],
+        [
+          {
+            "weight": "1",
+            "subtotal": "0"
+          },
+          {
+            "shipping": 5,
+            "orderTotal": 5
+          }
+        ]
+      ],
+      "mutation": [
+        "subtotal>=75",
+        "subtotal>75"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "f108a929f3ccd23bd2ef822769d257fe23143fdb3df3abe64154a911b6a50bbc",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "0418bdcb694441722dff6995fa16fccdb0a4d61b7e5866470bade0ea2dacfc3c",
+        "README.md": "d1c70e581f0a1972d2ff66b281bf471d43be9afe2f404817c0009135e02f778a"
+      },
+      "tasks": [
+        {
+          "id": "shipping-quote--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Parcel Desk. Quote parcel shipping with rounded-up weight tiers and a free-shipping threshold.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "f108a929f3ccd23bd2ef822769d257fe23143fdb3df3abe64154a911b6a50bbc",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "d1c70e581f0a1972d2ff66b281bf471d43be9afe2f404817c0009135e02f778a",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "7be3d7a7324c1bbd718eb7b3a080928eed02b7f219fd7dcb75c8b8646dd877e1"
+          }
+        },
+        {
+          "id": "shipping-quote--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Parcel Desk. Quote parcel shipping with rounded-up weight tiers and a free-shipping threshold.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "f108a929f3ccd23bd2ef822769d257fe23143fdb3df3abe64154a911b6a50bbc",
+            "logic.js": "107115068caf08f0d89c6c907476d802ac16f7c68f85d02cb995eff1ccfffdc3",
+            "README.md": "d1c70e581f0a1972d2ff66b281bf471d43be9afe2f404817c0009135e02f778a",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "783680c13fb5b727e12f821b748b7566446824471b5fd351e18fdef099dd67cc"
+          }
+        }
+      ]
+    },
+    {
+      "id": "quiz-score",
+      "title": "Quiz Studio",
+      "description": "Grade comma-separated answers against a comma-separated answer key.",
+      "fields": [
+        [
+          "answers",
+          "Answers",
+          "text",
+          "a, b, c"
+        ],
+        [
+          "key",
+          "Answer key",
+          "text",
+          "A,B,D"
+        ]
+      ],
+      "body": "const a=d.answers.split(',').map(x=>x.trim().toLowerCase()), k=d.key.split(',').map(x=>x.trim().toLowerCase()); if(!d.key.trim()||a.length!==k.length||k.some(x=>!x)) throw Error('Provide equal nonempty answer lists'); const correct=k.filter((x,i)=>x===a[i]).length; return {correct,total:k.length,percent:round(correct/k.length*100)};",
+      "cases": [
+        [
+          {
+            "answers": "a, b, c",
+            "key": "A,B,D"
+          },
+          {
+            "correct": 2,
+            "total": 3,
+            "percent": 66.67
+          }
+        ],
+        [
+          {
+            "answers": "x",
+            "key": "X"
+          },
+          {
+            "correct": 1,
+            "total": 1,
+            "percent": 100
+          }
+        ],
+        [
+          {
+            "answers": "x,y",
+            "key": "a,b"
+          },
+          {
+            "correct": 0,
+            "total": 2,
+            "percent": 0
+          }
+        ]
+      ],
+      "mutation": [
+        "correct/k.length*100",
+        "Math.floor(correct/k.length)*100"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "ef37f0bab8333777cfc4c2b6523cc9198f257b45478e6f837337e56ef26ef669",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "aed83c42a2ad0c1c089560e91dc2607580423dff12d6d178958483702ae7c8ab",
+        "README.md": "0d12918890c68dcf445aff3d03180c588b3aaed2de18e990caa3c31fe50a4f7b"
+      },
+      "tasks": [
+        {
+          "id": "quiz-score--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Quiz Studio. Grade comma-separated answers against a comma-separated answer key.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "ef37f0bab8333777cfc4c2b6523cc9198f257b45478e6f837337e56ef26ef669",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "0d12918890c68dcf445aff3d03180c588b3aaed2de18e990caa3c31fe50a4f7b",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "8a92e668b6fab59c50164e439d4b93384a38af6f38181fe1c9c7578049704540"
+          }
+        },
+        {
+          "id": "quiz-score--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Quiz Studio. Grade comma-separated answers against a comma-separated answer key.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "ef37f0bab8333777cfc4c2b6523cc9198f257b45478e6f837337e56ef26ef669",
+            "logic.js": "d71e4eda8ba004f20f854e93b885c9076b08f12c65bd88bc3f83afe52d7da99a",
+            "README.md": "0d12918890c68dcf445aff3d03180c588b3aaed2de18e990caa3c31fe50a4f7b",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "a6050ec23a9ccb20d33f9e00ff2fdc55133fb4ec02305433a95031f36d1e6193"
+          }
+        }
+      ]
+    },
+    {
+      "id": "work-session",
+      "title": "Focus Blocks",
+      "description": "Plan focus blocks and breaks without adding a break after the last block.",
+      "fields": [
+        [
+          "blocks",
+          "Focus blocks",
+          "number",
+          "4"
+        ],
+        [
+          "focus",
+          "Minutes per block",
+          "number",
+          "25"
+        ],
+        [
+          "rest",
+          "Break minutes",
+          "number",
+          "5"
+        ]
+      ],
+      "body": "const blocks=num(d.blocks,1),focus=num(d.focus,1),rest=num(d.rest,0); if(!Number.isInteger(blocks)) throw Error('Use whole blocks'); return {focusMinutes:blocks*focus,breakMinutes:(blocks-1)*rest,totalMinutes:blocks*focus+(blocks-1)*rest};",
+      "cases": [
+        [
+          {
+            "blocks": "4",
+            "focus": "25",
+            "rest": "5"
+          },
+          {
+            "focusMinutes": 100,
+            "breakMinutes": 15,
+            "totalMinutes": 115
+          }
+        ],
+        [
+          {
+            "blocks": "1",
+            "focus": "20",
+            "rest": "10"
+          },
+          {
+            "focusMinutes": 20,
+            "breakMinutes": 0,
+            "totalMinutes": 20
+          }
+        ],
+        [
+          {
+            "blocks": "2",
+            "focus": "10",
+            "rest": "0"
+          },
+          {
+            "focusMinutes": 20,
+            "breakMinutes": 0,
+            "totalMinutes": 20
+          }
+        ]
+      ],
+      "mutation": [
+        "(blocks-1)*rest",
+        "blocks*rest"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "248cea3f94b77c37856c58e8455d1657593f335412f4dcbc15164f7240dd5d91",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "f8df5611cc4faf2eb2d3c7246dcb334f908e533d34c1d69c194ba5f8bb93ffcc",
+        "README.md": "a0a3aef4fdfad418e87a98fab462c67ef4f7b83a66ea91c519d899a19597ea74"
+      },
+      "tasks": [
+        {
+          "id": "work-session--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Focus Blocks. Plan focus blocks and breaks without adding a break after the last block.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "248cea3f94b77c37856c58e8455d1657593f335412f4dcbc15164f7240dd5d91",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "a0a3aef4fdfad418e87a98fab462c67ef4f7b83a66ea91c519d899a19597ea74",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "b0a31991471d1f5eaa0be6732eb099ea838b4713376b8d09d25acd5d720df7dc"
+          }
+        },
+        {
+          "id": "work-session--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Focus Blocks. Plan focus blocks and breaks without adding a break after the last block.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "248cea3f94b77c37856c58e8455d1657593f335412f4dcbc15164f7240dd5d91",
+            "logic.js": "112dc2c692e29ef3d7274c8ac4b1876e529aa7c6c7e42eecd6b7791733c4e3c5",
+            "README.md": "a0a3aef4fdfad418e87a98fab462c67ef4f7b83a66ea91c519d899a19597ea74",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "f418fd4be15c9e2ca2b0ac8526ae7239fbc71388134b6480c7b866a1ed3bd207"
+          }
+        }
+      ]
+    },
+    {
+      "id": "duplicate-cleaner",
+      "title": "Clean List",
+      "description": "Deduplicate a list case-insensitively while preserving the first spelling and order.",
+      "fields": [
+        [
+          "items",
+          "One item per line",
+          "textarea",
+          "Alpha\nbeta\nALPHA"
+        ]
+      ],
+      "body": "const seen=new Set(), source=lines(d.items), unique=source.filter(x=>{const key=x.toLowerCase(); if(seen.has(key)) return false; seen.add(key); return true;}); return {unique:unique.length,removed:source.length-unique.length,items:unique.join(', ')};",
+      "cases": [
+        [
+          {
+            "items": " Alpha\nbeta\nALPHA "
+          },
+          {
+            "unique": 2,
+            "removed": 1,
+            "items": "Alpha, beta"
+          }
+        ],
+        [
+          {
+            "items": "B\nA\nB"
+          },
+          {
+            "unique": 2,
+            "removed": 1,
+            "items": "B, A"
+          }
+        ],
+        [
+          {
+            "items": "one"
+          },
+          {
+            "unique": 1,
+            "removed": 0,
+            "items": "one"
+          }
+        ]
+      ],
+      "mutation": [
+        "const key=x.toLowerCase()",
+        "const key=x"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "26cb26bda363408de215ba22f74595a769dc44903d416e5d188d2c6a190d3dd3",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "01174cc7df225b9594a8372ce3becba9c9212008ca580b34eb39540d884c7f92",
+        "README.md": "697c80e620d8ce919f98468ee8c782cdbd794034867e33bab41ae0ef010da611"
+      },
+      "tasks": [
+        {
+          "id": "duplicate-cleaner--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Clean List. Deduplicate a list case-insensitively while preserving the first spelling and order.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "26cb26bda363408de215ba22f74595a769dc44903d416e5d188d2c6a190d3dd3",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "697c80e620d8ce919f98468ee8c782cdbd794034867e33bab41ae0ef010da611",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "bef044faac10b496d2d95fdd7e19a8d9011a740faf184d5622c1e0792b8cc0a0"
+          }
+        },
+        {
+          "id": "duplicate-cleaner--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Clean List. Deduplicate a list case-insensitively while preserving the first spelling and order.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "26cb26bda363408de215ba22f74595a769dc44903d416e5d188d2c6a190d3dd3",
+            "logic.js": "3aa066c3cc293c72a22cb8567a13bf5081dff7dba5636133a6cd76669b58273a",
+            "README.md": "697c80e620d8ce919f98468ee8c782cdbd794034867e33bab41ae0ef010da611",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "2274b098db2627c6fd342c6ad32e236dbb58143664d2dcf7457f1981ea77a321"
+          }
+        }
+      ]
+    },
+    {
+      "id": "subscription-budget",
+      "title": "Monthly View",
+      "description": "Convert subscription prices to a monthly and annual total.",
+      "fields": [
+        [
+          "monthly",
+          "Monthly subscriptions total",
+          "number",
+          "20"
+        ],
+        [
+          "annual",
+          "Annual subscriptions total",
+          "number",
+          "120"
+        ]
+      ],
+      "body": "const monthly=num(d.monthly,0), annual=num(d.annual,0); return {monthlyEquivalent:round(monthly+annual/12),yearlyTotal:round(monthly*12+annual)};",
+      "cases": [
+        [
+          {
+            "monthly": "20",
+            "annual": "120"
+          },
+          {
+            "monthlyEquivalent": 30,
+            "yearlyTotal": 360
+          }
+        ],
+        [
+          {
+            "monthly": "0",
+            "annual": "60"
+          },
+          {
+            "monthlyEquivalent": 5,
+            "yearlyTotal": 60
+          }
+        ],
+        [
+          {
+            "monthly": "5.5",
+            "annual": "0"
+          },
+          {
+            "monthlyEquivalent": 5.5,
+            "yearlyTotal": 66
+          }
+        ]
+      ],
+      "mutation": [
+        "monthly+annual/12",
+        "monthly+annual"
+      ],
+      "split": "train",
+      "reference_hashes": {
+        "index.html": "8849ac98a28add7569bbc3cb00bf5f0a1de5cd2d8134628bc567198ec9dcdc65",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "0e330825769cd5625e82461769b514a7220507371cb041d68b0861bb60031a47",
+        "README.md": "dbc25352b28a7823c10f083e51ec754271ddfb34d70fac00966648b5f9bdb421"
+      },
+      "tasks": [
+        {
+          "id": "subscription-budget--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Monthly View. Convert subscription prices to a monthly and annual total.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "8849ac98a28add7569bbc3cb00bf5f0a1de5cd2d8134628bc567198ec9dcdc65",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "dbc25352b28a7823c10f083e51ec754271ddfb34d70fac00966648b5f9bdb421",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "007894179a01b66b6bff3b1603f50ed82f9dfbfef6560b35bd788847908d7ad8"
+          }
+        },
+        {
+          "id": "subscription-budget--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Monthly View. Convert subscription prices to a monthly and annual total.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "8849ac98a28add7569bbc3cb00bf5f0a1de5cd2d8134628bc567198ec9dcdc65",
+            "logic.js": "9d7d82b1df0442f9b7db6e32473b36ffc1a61373f0203bf5d3912596d8c6311d",
+            "README.md": "dbc25352b28a7823c10f083e51ec754271ddfb34d70fac00966648b5f9bdb421",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "42fd4e1a32e2f3f936e8ca26f881e1b39742a1d3ee034a41691c40bae5be8600"
+          }
+        }
+      ]
+    },
+    {
+      "id": "unit-converter",
+      "title": "Distance Lab",
+      "description": "Convert kilometers into meters and miles.",
+      "fields": [
+        [
+          "kilometers",
+          "Distance in kilometers",
+          "number",
+          "5"
+        ]
+      ],
+      "body": "const km=num(d.kilometers,0); return {meters:round(km*1000),miles:round(km/1.609344)};",
+      "cases": [
+        [
+          {
+            "kilometers": "5"
+          },
+          {
+            "meters": 5000,
+            "miles": 3.11
+          }
+        ],
+        [
+          {
+            "kilometers": "1.609344"
+          },
+          {
+            "meters": 1609.34,
+            "miles": 1
+          }
+        ],
+        [
+          {
+            "kilometers": "0"
+          },
+          {
+            "meters": 0,
+            "miles": 0
+          }
+        ]
+      ],
+      "mutation": [
+        "km*1000",
+        "km*100"
+      ],
+      "split": "validation",
+      "reference_hashes": {
+        "index.html": "53b70ac30e5bb5a8cda021180898f8c764f11a9e148b726a8bfe34acb2d330c5",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "b0ee0af4b2abc3a09b6e12c3902b8740019d209c2fd14f42c9106c0d8dc19c12",
+        "README.md": "a97dbef0fa6ee59a5cddf0fe0de4e17791e78d5bfb10daa0a6857dd3cef22253"
+      },
+      "tasks": [
+        {
+          "id": "unit-converter--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Distance Lab. Convert kilometers into meters and miles.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "53b70ac30e5bb5a8cda021180898f8c764f11a9e148b726a8bfe34acb2d330c5",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "a97dbef0fa6ee59a5cddf0fe0de4e17791e78d5bfb10daa0a6857dd3cef22253",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "bc9ec4424b1f7da1be95404b9f9c59afdc347818611c2ca9d62cee435d8b82e0"
+          }
+        },
+        {
+          "id": "unit-converter--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Distance Lab. Convert kilometers into meters and miles.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "53b70ac30e5bb5a8cda021180898f8c764f11a9e148b726a8bfe34acb2d330c5",
+            "logic.js": "c4f0d0f723428a8df796eb586bbe040056f0dbee9b7d659442ff8054db3a19b0",
+            "README.md": "a97dbef0fa6ee59a5cddf0fe0de4e17791e78d5bfb10daa0a6857dd3cef22253",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "aa29341c13039b293ef94f9b1f5fdc4cbf34a31b011644c3c25975c08b384ea7"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pagination",
+      "title": "Page Window",
+      "description": "Calculate page ranges for a paginated results list.",
+      "fields": [
+        [
+          "total",
+          "Total results",
+          "number",
+          "42"
+        ],
+        [
+          "size",
+          "Results per page",
+          "number",
+          "10"
+        ],
+        [
+          "page",
+          "Requested page",
+          "number",
+          "2"
+        ]
+      ],
+      "body": "const total=num(d.total,0),size=num(d.size,1),requested=num(d.page,1); if(![total,size,requested].every(Number.isInteger)) throw Error('Use whole numbers'); const pages=Math.ceil(total/size),page=pages?Math.min(requested,pages):0; return {pages,page,first:page?(page-1)*size+1:0,last:Math.min(page*size,total)};",
+      "cases": [
+        [
+          {
+            "total": "42",
+            "size": "10",
+            "page": "5"
+          },
+          {
+            "pages": 5,
+            "page": 5,
+            "first": 41,
+            "last": 42
+          }
+        ],
+        [
+          {
+            "total": "0",
+            "size": "10",
+            "page": "1"
+          },
+          {
+            "pages": 0,
+            "page": 0,
+            "first": 0,
+            "last": 0
+          }
+        ],
+        [
+          {
+            "total": "10",
+            "size": "10",
+            "page": "9"
+          },
+          {
+            "pages": 1,
+            "page": 1,
+            "first": 1,
+            "last": 10
+          }
+        ]
+      ],
+      "mutation": [
+        "Math.ceil(total/size)",
+        "Math.floor(total/size)"
+      ],
+      "split": "validation",
+      "reference_hashes": {
+        "index.html": "9e30e59aa03618d3739b883661a947c629147e95155812dea9eb01357a30991d",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "88b7402e249fcd85ad5e5f63cb8f8f3feec444e78f5be71a3b77ea04a04c7b18",
+        "README.md": "26c64499c06ba7987695b036cfc05a33eb358820a66f9c1a1d20f6783e07e516"
+      },
+      "tasks": [
+        {
+          "id": "pagination--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Page Window. Calculate page ranges for a paginated results list.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "9e30e59aa03618d3739b883661a947c629147e95155812dea9eb01357a30991d",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "26c64499c06ba7987695b036cfc05a33eb358820a66f9c1a1d20f6783e07e516",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "d0bcc42a62f3d1b100a70a4c22f14995afa46b3c4ff67aa7a63e0a09209e7764"
+          }
+        },
+        {
+          "id": "pagination--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Page Window. Calculate page ranges for a paginated results list.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "9e30e59aa03618d3739b883661a947c629147e95155812dea9eb01357a30991d",
+            "logic.js": "b3bb9a08fa2d1acf2ceb62dde7150bed78fdede07b360f7d07da8d091b713e6b",
+            "README.md": "26c64499c06ba7987695b036cfc05a33eb358820a66f9c1a1d20f6783e07e516",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "03bd1f8a6a1b8e40fc5a16ece4a87c43b5d3b6784390a2b75e07cb0250b7f6dc"
+          }
+        }
+      ]
+    },
+    {
+      "id": "storage-estimate",
+      "title": "Media Space",
+      "description": "Estimate storage for a collection of media files.",
+      "fields": [
+        [
+          "count",
+          "File count",
+          "number",
+          "100"
+        ],
+        [
+          "size",
+          "Megabytes per file",
+          "number",
+          "25"
+        ],
+        [
+          "copies",
+          "Number of copies",
+          "number",
+          "2"
+        ]
+      ],
+      "body": "const count=num(d.count,0), size=num(d.size,0), copies=num(d.copies,1); return {megabytes:round(count*size*copies),gigabytes:round(count*size*copies/1000)};",
+      "cases": [
+        [
+          {
+            "count": "100",
+            "size": "25",
+            "copies": "2"
+          },
+          {
+            "megabytes": 5000,
+            "gigabytes": 5
+          }
+        ],
+        [
+          {
+            "count": "0",
+            "size": "25",
+            "copies": "1"
+          },
+          {
+            "megabytes": 0,
+            "gigabytes": 0
+          }
+        ],
+        [
+          {
+            "count": "1",
+            "size": "1000",
+            "copies": "3"
+          },
+          {
+            "megabytes": 3000,
+            "gigabytes": 3
+          }
+        ]
+      ],
+      "mutation": [
+        "count*size*copies/1000",
+        "count*size/1000"
+      ],
+      "split": "validation",
+      "reference_hashes": {
+        "index.html": "e73966efc14f6a42023b4828beb51ba84dcb9fd63e2a3d8b38e4c4b3818ef230",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "cccb74d7234a4549a0ae1c72162b30d5820b973267a5cd1d08309d64253ba184",
+        "README.md": "4839cbe1dc2611a0fb52b66ead33ef65269b8717faa712af3cbfb5840063c492"
+      },
+      "tasks": [
+        {
+          "id": "storage-estimate--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Media Space. Estimate storage for a collection of media files.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "e73966efc14f6a42023b4828beb51ba84dcb9fd63e2a3d8b38e4c4b3818ef230",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "4839cbe1dc2611a0fb52b66ead33ef65269b8717faa712af3cbfb5840063c492",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "be6a8426d2a622572a5da355f785d4b2c6612ec48eb3a0127f8d5059a3511111"
+          }
+        },
+        {
+          "id": "storage-estimate--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Media Space. Estimate storage for a collection of media files.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "e73966efc14f6a42023b4828beb51ba84dcb9fd63e2a3d8b38e4c4b3818ef230",
+            "logic.js": "d2baaa70aae58da312befa9249998ab204a44676f734a09100a202c78c354b51",
+            "README.md": "4839cbe1dc2611a0fb52b66ead33ef65269b8717faa712af3cbfb5840063c492",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "9996e1adb06da2c0e5b36b4e3397fa52222480d3f36aa51ff025e638b28e8402"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rsvp-summary",
+      "title": "Guest List",
+      "description": "Summarize invited guests by response. One name,status per line.",
+      "fields": [
+        [
+          "guests",
+          "Responses: yes, no, or pending",
+          "textarea",
+          "Ada,yes\nBen,pending\nCora,no"
+        ]
+      ],
+      "body": "const counts={yes:0,no:0,pending:0}; for(const row of lines(d.guests)){const [name,status]=row.split(',').map(x=>x.trim().toLowerCase()); if(!name||!(status in counts)) throw Error('Use name,status'); counts[status]++;} return {attending:counts.yes,declined:counts.no,pending:counts.pending,total:counts.yes+counts.no+counts.pending};",
+      "cases": [
+        [
+          {
+            "guests": "Ada,YES\nBen,pending\nCora,no"
+          },
+          {
+            "attending": 1,
+            "declined": 1,
+            "pending": 1,
+            "total": 3
+          }
+        ],
+        [
+          {
+            "guests": "A,yes\nB,yes"
+          },
+          {
+            "attending": 2,
+            "declined": 0,
+            "pending": 0,
+            "total": 2
+          }
+        ],
+        [
+          {
+            "guests": "A,pending"
+          },
+          {
+            "attending": 0,
+            "declined": 0,
+            "pending": 1,
+            "total": 1
+          }
+        ]
+      ],
+      "mutation": [
+        "counts[status]++",
+        "counts[status]=1"
+      ],
+      "split": "validation",
+      "reference_hashes": {
+        "index.html": "ee340b8d84ccf1871f88ea5e0f37e52024f51bd86ccdf4528b41da2bcd35a9be",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "ae3eb102f5f6d0573f2dbbbd98f55cdede88f702ae4339edb29026b792424c21",
+        "README.md": "0551ed2636f49ec27191335142d9c777b2cd42a425c8f49638b5d5957cf197b0"
+      },
+      "tasks": [
+        {
+          "id": "rsvp-summary--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Guest List. Summarize invited guests by response. One name,status per line.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "ee340b8d84ccf1871f88ea5e0f37e52024f51bd86ccdf4528b41da2bcd35a9be",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "0551ed2636f49ec27191335142d9c777b2cd42a425c8f49638b5d5957cf197b0",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "b2ed27b58d5660aa1ae8f429a999418db067332aac65f7cd6e66b9405ce37acc"
+          }
+        },
+        {
+          "id": "rsvp-summary--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Guest List. Summarize invited guests by response. One name,status per line.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "ee340b8d84ccf1871f88ea5e0f37e52024f51bd86ccdf4528b41da2bcd35a9be",
+            "logic.js": "3c141aab9118b4ab8d174998be8cf2a2f50953c40af27cd3a14c6e23c9b3e83e",
+            "README.md": "0551ed2636f49ec27191335142d9c777b2cd42a425c8f49638b5d5957cf197b0",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "5b3ff96b2a5639e0f0d7c68028304f6b3613c1a29561f799612dd42c89027834"
+          }
+        }
+      ]
+    },
+    {
+      "id": "date-countdown",
+      "title": "Day Marker",
+      "description": "Count calendar days between ISO dates using UTC.",
+      "fields": [
+        [
+          "start",
+          "Start date",
+          "text",
+          "2026-01-01"
+        ],
+        [
+          "end",
+          "End date",
+          "text",
+          "2026-02-01"
+        ]
+      ],
+      "body": "function date(s){if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(s)) throw Error('Use YYYY-MM-DD'); const t=Date.parse(s+'T00:00:00Z'); if(!Number.isFinite(t)||new Date(t).toISOString().slice(0,10)!==s) throw Error('Invalid date'); return t;} const days=(date(d.end)-date(d.start))/86400000; return {days,direction:days<0?'Past':days>0?'Future':'Today'};",
+      "cases": [
+        [
+          {
+            "start": "2024-02-28",
+            "end": "2024-03-01"
+          },
+          {
+            "days": 2,
+            "direction": "Future"
+          }
+        ],
+        [
+          {
+            "start": "2026-01-01",
+            "end": "2026-01-01"
+          },
+          {
+            "days": 0,
+            "direction": "Today"
+          }
+        ],
+        [
+          {
+            "start": "2026-01-03",
+            "end": "2026-01-01"
+          },
+          {
+            "days": -2,
+            "direction": "Past"
+          }
+        ]
+      ],
+      "mutation": [
+        "86400000",
+        "3600000"
+      ],
+      "split": "test",
+      "reference_hashes": {
+        "index.html": "c6aa923182bc48f5f3ca4bd4ba95ece1961874fb9cd3f9aeb942f8596c5b1be5",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "6375a17fbef1ce6f3171a077a52f7aa211692f71ce1d10e010fb328ab2f81f30",
+        "README.md": "84fcc95318c5459f43b081daba49cdb3c0e20c5b5996e445e5ac6747a4b04205"
+      },
+      "tasks": [
+        {
+          "id": "date-countdown--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Day Marker. Count calendar days between ISO dates using UTC.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "c6aa923182bc48f5f3ca4bd4ba95ece1961874fb9cd3f9aeb942f8596c5b1be5",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "84fcc95318c5459f43b081daba49cdb3c0e20c5b5996e445e5ac6747a4b04205",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "08236686294ed00758e002d6295fef9de8e855e6453fec063523cfa58ee8543f"
+          }
+        },
+        {
+          "id": "date-countdown--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Day Marker. Count calendar days between ISO dates using UTC.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "c6aa923182bc48f5f3ca4bd4ba95ece1961874fb9cd3f9aeb942f8596c5b1be5",
+            "logic.js": "2ed340e01924f19e959c2cba57c96c8854755068201f1f1fa44fff177843a9ed",
+            "README.md": "84fcc95318c5459f43b081daba49cdb3c0e20c5b5996e445e5ac6747a4b04205",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "8c5c787570b9c669f88246c70a99f4d390602ca47d7d3c744d657b8b86ce5d21"
+          }
+        }
+      ]
+    },
+    {
+      "id": "grade-planner",
+      "title": "Course Balance",
+      "description": "Calculate a weighted average from score,weight rows. Weights must total 100.",
+      "fields": [
+        [
+          "grades",
+          "Score,weight per line",
+          "textarea",
+          "80,40\n90,60"
+        ]
+      ],
+      "body": "let total=0,weighted=0; for(const row of lines(d.grades)){const [a,b]=row.split(','); const score=num(a,0),weight=num(b,0); if(score>100) throw Error('Score exceeds 100'); total+=weight; weighted+=score*weight;} if(Math.abs(total-100)>0.0001) throw Error('Weights must total 100'); return {average:round(weighted/100)};",
+      "cases": [
+        [
+          {
+            "grades": "80,40\n90,60"
+          },
+          {
+            "average": 86
+          }
+        ],
+        [
+          {
+            "grades": "0,50\n100,50"
+          },
+          {
+            "average": 50
+          }
+        ],
+        [
+          {
+            "grades": "100,100"
+          },
+          {
+            "average": 100
+          }
+        ]
+      ],
+      "mutation": [
+        "weighted+=score*weight",
+        "weighted+=score"
+      ],
+      "split": "test",
+      "reference_hashes": {
+        "index.html": "f55da39d7a9bd1c410e5bbacbfc29fd881ca741cb8b2666a7cd9224f5fb7e703",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "925055b0e7a91e4929cf23b62fbb93a423bb1657a3f30264c831dc9fc0d6cbbb",
+        "README.md": "7a5bf7a218c37b33d0348cf60caca739763a75caafae940ba3ece94de84eada7"
+      },
+      "tasks": [
+        {
+          "id": "grade-planner--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Course Balance. Calculate a weighted average from score,weight rows. Weights must total 100.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "f55da39d7a9bd1c410e5bbacbfc29fd881ca741cb8b2666a7cd9224f5fb7e703",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "7a5bf7a218c37b33d0348cf60caca739763a75caafae940ba3ece94de84eada7",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "a47d326ae4461c393ea775b14f70932613759e363a0bd4c21f27e04bacd07142"
+          }
+        },
+        {
+          "id": "grade-planner--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Course Balance. Calculate a weighted average from score,weight rows. Weights must total 100.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "f55da39d7a9bd1c410e5bbacbfc29fd881ca741cb8b2666a7cd9224f5fb7e703",
+            "logic.js": "cfb2836e169580353582c71a33d4117b57456d3514b07e6fa0c4a74ead328506",
+            "README.md": "7a5bf7a218c37b33d0348cf60caca739763a75caafae940ba3ece94de84eada7",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "24fcbffc7c8124b7d5f55fd577ee32caab58fe89a366dadb33e0c68bf0bd5e2a"
+          }
+        }
+      ]
+    },
+    {
+      "id": "password-meter",
+      "title": "Passphrase Lens",
+      "description": "Give local-only password structure feedback. Nothing is transmitted.",
+      "fields": [
+        [
+          "password",
+          "Example password (do not use a real one)",
+          "text",
+          "Demo phrase 42!"
+        ]
+      ],
+      "body": "const s=d.password; const categories=[/[a-z]/,/[A-Z]/,/\\d/,/[^a-zA-Z0-9\\s]/].filter(r=>r.test(s)).length; const score=(s.length>=12?2:s.length>=8?1:0)+categories; return {length:s.length,categories,rating:score>=6?'Strong':score>=4?'Moderate':'Weak'};",
+      "cases": [
+        [
+          {
+            "password": "abcdefgh"
+          },
+          {
+            "length": 8,
+            "categories": 1,
+            "rating": "Weak"
+          }
+        ],
+        [
+          {
+            "password": "Abcdefgh12!?"
+          },
+          {
+            "length": 12,
+            "categories": 4,
+            "rating": "Strong"
+          }
+        ],
+        [
+          {
+            "password": ""
+          },
+          {
+            "length": 0,
+            "categories": 0,
+            "rating": "Weak"
+          }
+        ]
+      ],
+      "mutation": [
+        "s.length>=12",
+        "s.length>12"
+      ],
+      "split": "test",
+      "reference_hashes": {
+        "index.html": "9998cde6f0046ac6b4a42127bade9ef600af9f799b23fe3162f5b827cafcf802",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "21a4b59a1a5bb6355a454abab893e7498b7a8ed64bd5f7e81f71b8ad3be9a16d",
+        "README.md": "045fcad57d8335088b8e90d5309d62ea7a5c44312a280146439f98286602700e"
+      },
+      "tasks": [
+        {
+          "id": "password-meter--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Passphrase Lens. Give local-only password structure feedback. Nothing is transmitted.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "9998cde6f0046ac6b4a42127bade9ef600af9f799b23fe3162f5b827cafcf802",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "045fcad57d8335088b8e90d5309d62ea7a5c44312a280146439f98286602700e",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "b7e6a1eb4fd3ab643f19ce4d8b95d212230e51db16b57d5d4f754de853e643dd"
+          }
+        },
+        {
+          "id": "password-meter--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Passphrase Lens. Give local-only password structure feedback. Nothing is transmitted.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "9998cde6f0046ac6b4a42127bade9ef600af9f799b23fe3162f5b827cafcf802",
+            "logic.js": "ab64fd261ff946742e7c7018f7375d2157349d3044a5bce4417658c5112d08b5",
+            "README.md": "045fcad57d8335088b8e90d5309d62ea7a5c44312a280146439f98286602700e",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "551f8c5187abba2663b4007180948419a2496029d240252cb1b243a2486491e5"
+          }
+        }
+      ]
+    },
+    {
+      "id": "round-robin",
+      "title": "Match Day",
+      "description": "Calculate pairings for a single round-robin tournament.",
+      "fields": [
+        [
+          "teams",
+          "Teams (one per line)",
+          "textarea",
+          "Owls\nFoxes\nBears"
+        ]
+      ],
+      "body": "const teams=lines(d.teams); if(new Set(teams).size!==teams.length) throw Error('Team names must be unique'); const matches=[]; for(let i=0;i<teams.length;i++) for(let j=i+1;j<teams.length;j++) matches.push(teams[i]+' vs '+teams[j]); return {teams:teams.length,matches:matches.length,schedule:matches.join('; ')||'No matches'};",
+      "cases": [
+        [
+          {
+            "teams": "A\nB\nC"
+          },
+          {
+            "teams": 3,
+            "matches": 3,
+            "schedule": "A vs B; A vs C; B vs C"
+          }
+        ],
+        [
+          {
+            "teams": "Solo"
+          },
+          {
+            "teams": 1,
+            "matches": 0,
+            "schedule": "No matches"
+          }
+        ],
+        [
+          {
+            "teams": "A\nB"
+          },
+          {
+            "teams": 2,
+            "matches": 1,
+            "schedule": "A vs B"
+          }
+        ]
+      ],
+      "mutation": [
+        "j=i+1",
+        "j=i"
+      ],
+      "split": "test",
+      "reference_hashes": {
+        "index.html": "38af1e39043952ccc6e31a96c88e24a28fcab4e0e2cd78cec92fa2620fe55e91",
+        "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+        "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+        "logic.js": "f7739f6ac40864e8688fa62f3f8d2a69480a73f67bfc6c6b556a958b53427297",
+        "README.md": "69e765fd899cf18d4d8f8d76eba62785d4eea175f4af4e0661aaac8d5cc162de"
+      },
+      "tasks": [
+        {
+          "id": "round-robin--implement",
+          "variant": "implement",
+          "prompt": "Complete this browser application: Match Day. Calculate pairings for a single round-robin tournament.\nRead README.md, index.html, app.js, and logic.js. Implement the missing run(d) function in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "38af1e39043952ccc6e31a96c88e24a28fcab4e0e2cd78cec92fa2620fe55e91",
+            "logic.js": "67f6a47e20b3dd306b1326dc597a646f831d4cecda1bf8a333ca9f2d98da7ca0",
+            "README.md": "69e765fd899cf18d4d8f8d76eba62785d4eea175f4af4e0661aaac8d5cc162de",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "664f67368effd217ede12d8b018383849b6057884c2a46cfa4e3029774207f64"
+          }
+        },
+        {
+          "id": "round-robin--repair",
+          "variant": "repair",
+          "prompt": "Complete this browser application: Match Day. Calculate pairings for a single round-robin tournament.\nRead README.md, index.html, app.js, and logic.js. Find and repair the calculation defect in logic.js. Keep the existing accessible form and local-only behavior. Numeric inputs must be finite and respect the labels; reject invalid input with a useful error. Use the example and project contract in TASK.md. Run the configured browser tests and finish only after seeing their result.",
+          "starter_hashes": {
+            "app.js": "a75d77950af253218097022f4d6db515a55967c80391864a21531e102e6cdb09",
+            "index.html": "38af1e39043952ccc6e31a96c88e24a28fcab4e0e2cd78cec92fa2620fe55e91",
+            "logic.js": "3bdf572045de80eed10494b8260702486f006b50365aa3a49ab1809722d0e9a4",
+            "README.md": "69e765fd899cf18d4d8f8d76eba62785d4eea175f4af4e0661aaac8d5cc162de",
+            "style.css": "795fbf2957bcae13964ee105ebf0c1b53f5748d4a8e92c5fcc1cd790fb2bd921",
+            "TASK.md": "8bfaef9738152ab25ef379c12b1a70263980b8fa51c89181fa9d949569c9e032"
+          }
+        }
+      ]
+    }
+  ]
+}
